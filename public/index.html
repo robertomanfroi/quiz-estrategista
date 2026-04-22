@@ -661,13 +661,11 @@
       </h1>
 
       <p class="intro-sub">
-        16 perguntas. 3 minutos. Descubra seu nível estratégico e receba um plano de ação personalizado com IA.
+        3 minutinhos. Descubra seu nível estratégico e o que está travando o crescimento do seu negócio.
       </p>
 
       <div class="intro-pills">
-        <span class="intro-pill">16 perguntas</span>
-        <span class="intro-pill">~3 minutos</span>
-        <span class="intro-pill">Plano gerado por IA</span>
+        <span class="intro-pill">~3 minutinhos</span>
         <span class="intro-pill">Grátis</span>
       </div>
 
@@ -687,7 +685,7 @@
   <div id="screen-quiz">
     <div class="quiz-wrap">
       <div class="quiz-header">
-        <div class="quiz-counter" id="q-counter">Pergunta 1 / 16</div>
+        <div class="quiz-counter" id="q-counter">~3 minutinhos</div>
         <div class="quiz-pts" id="q-pts">0 pts</div>
       </div>
       <div class="question-area" id="question-area">
@@ -739,10 +737,6 @@
         <div class="score-nicho" id="r-nicho-info"></div>
       </div>
 
-      <div class="report-card" id="r-body">
-        <!-- streaming content aqui -->
-      </div>
-
       <div class="cta-block">
         <div class="cta-eyebrow">Próximo passo</div>
         <h3 class="cta-title">Pronto para implementar a estratégia?</h3>
@@ -753,10 +747,6 @@
       </div>
 
       <div class="action-btns">
-        <button class="btn-outline green" id="btn-copiar" onclick="copiarAnalise()">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="7" width="10" height="12" rx="2"/><path d="M3 13V4a1 1 0 011-1h9" stroke-linecap="round"/></svg>
-          Copiar análise completa
-        </button>
         <button class="btn-outline" onclick="reiniciar()">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10a6 6 0 116 6" stroke-linecap="round"/><path d="M4 6v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Refazer quiz
@@ -959,7 +949,6 @@ let atual = 0;
 let pontuacao = 0;
 let respostas = {};
 let contexto = { nicho:'', faturamento:'', trafego:'', canal:'' };
-let analiseTexto = '';
 
 /* ════════════════════════════════════════════════════════════
    FUNÇÕES PRINCIPAIS
@@ -1108,109 +1097,21 @@ async function gerarResultado() {
     nivelClass = 'alto';
   }
 
-  // Mostrar loading
+  // Mostrar resultado direto
   document.getElementById('screen-quiz').style.display = 'none';
-  document.getElementById('screen-loading').style.display = 'block';
+  document.getElementById('screen-resultado').style.display = 'block';
   window.scrollTo({ top:0, behavior:'smooth' });
 
-  // Animar loading steps
-  const steps = ['ls1','ls2','ls3','ls4'];
-  let si = 0;
-  const stepInt = setInterval(() => {
-    if (si > 0) document.getElementById(steps[si-1]).classList.replace('ativo','done');
-    if (si < steps.length) {
-      document.getElementById(steps[si]).classList.add('ativo');
-      si++;
-    } else {
-      clearInterval(stepInt);
-    }
-  }, 1800);
+  // Score com animação
+  const scoreEl = document.getElementById('r-score');
+  animarNumero(scoreEl, 0, scoreDez, 1200);
 
-  // Montar respostas descritivas
-  const respostasDetalhadas = {};
-  PERGUNTAS.forEach((q, i) => {
-    if (q.tipo === 'opcoes' || q.tipo === 'opcoes-simples') {
-      if (respostas[i]) {
-        const op = q.opcoes.find(o => o.letra === respostas[i]);
-        if (op) respostasDetalhadas[`P${i+1}`] = `[${respostas[i]}] ${op.texto}`;
-      }
-    }
-  });
+  const nivelBadge = document.getElementById('r-nivel-badge');
+  nivelBadge.textContent = nivel;
+  nivelBadge.className = `score-nivel ${nivelClass}`;
 
-  // Chamar API
-  try {
-    const resp = await fetch('/api/resultado', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pontuacao,
-        nivel,
-        nicho: contexto.nicho || 'Não informado',
-        faturamento: contexto.faturamento || 'Não informado',
-        trafego: contexto.trafego || 'Não informado',
-        canal: contexto.canal || 'Não informado',
-        respostas: respostasDetalhadas
-      })
-    });
-
-    clearInterval(stepInt);
-    steps.forEach(s => {
-      document.getElementById(s).classList.remove('ativo');
-      document.getElementById(s).classList.add('done');
-    });
-
-    // Mostrar resultado
-    document.getElementById('screen-loading').style.display = 'none';
-    document.getElementById('screen-resultado').style.display = 'block';
-    window.scrollTo({ top:0, behavior:'smooth' });
-
-    // Score com animação
-    const scoreEl = document.getElementById('r-score');
-    animarNumero(scoreEl, 0, scoreDez, 1200);
-
-    const nivelBadge = document.getElementById('r-nivel-badge');
-    nivelBadge.textContent = nivel;
-    nivelBadge.className = `score-nivel ${nivelClass}`;
-
-    document.getElementById('r-nicho-info').textContent =
-      contexto.nicho ? `Nicho: ${contexto.nicho} · ${contexto.faturamento}` : '';
-
-    // Streaming do texto
-    const bodyEl = document.getElementById('r-body');
-    bodyEl.innerHTML = '';
-    analiseTexto = '';
-
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const raw = line.slice(6);
-        if (raw === '[DONE]') break;
-        try {
-          const d = JSON.parse(raw);
-          if (d.text) {
-            analiseTexto += d.text;
-            bodyEl.innerHTML = markdownParaHTML(analiseTexto);
-          }
-        } catch(_) {}
-      }
-    }
-    bodyEl.innerHTML = markdownParaHTML(analiseTexto);
-
-  } catch (err) {
-    clearInterval(stepInt);
-    document.getElementById('screen-loading').style.display = 'none';
-    document.getElementById('screen-resultado').style.display = 'block';
-    document.getElementById('r-body').innerHTML = '<p style="color:var(--muted)">Erro ao gerar análise. Tente novamente.</p>';
-  }
+  document.getElementById('r-nicho-info').textContent =
+    contexto.nicho ? `Nicho: ${contexto.nicho} · ${contexto.faturamento}` : '';
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1228,35 +1129,9 @@ function animarNumero(el, inicio, fim, duracao) {
   requestAnimationFrame(tick);
 }
 
-function markdownParaHTML(md) {
-  return md
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
-    .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--orange);font-weight:600;">$1</a>')
-    .replace(/\n{2,}/g, '</p><p>')
-    .replace(/^(?!<[hul])/gm, '')
-    .replace(/<p><\/p>/g, '')
-    .replace(/^(.+)$/gm, (m) => m.startsWith('<') ? m : `<p>${m}</p>`);
-}
-
-function copiarAnalise() {
-  const texto = document.getElementById('r-body').innerText;
-  navigator.clipboard.writeText(texto).then(() => {
-    const btn = document.getElementById('btn-copiar');
-    btn.textContent = '✓ Copiado!';
-    setTimeout(() => {
-      btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="7" width="10" height="12" rx="2"/><path d="M3 13V4a1 1 0 011-1h9" stroke-linecap="round"/></svg> Copiar análise completa';
-    }, 2000);
-  });
-}
 
 function reiniciar() {
-  atual = 0; pontuacao = 0; respostas = {}; analiseTexto = '';
+  atual = 0; pontuacao = 0; respostas = {};
   contexto = { nicho:'', faturamento:'', trafego:'', canal:'' };
   document.getElementById('screen-resultado').style.display = 'none';
   document.getElementById('screen-intro').style.display = 'flex';
