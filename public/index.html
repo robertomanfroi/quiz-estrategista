@@ -372,11 +372,49 @@
     }
     footer strong { color:var(--muted); }
 
+    /* Money block */
+    .money-block {
+      margin-bottom:20px; border-radius:20px; padding:28px 24px;
+      background:rgba(252,76,4,0.06); border:1px solid rgba(252,76,4,0.20);
+    }
+    .money-block-label {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--orange);
+      margin-bottom:12px; display:flex; align-items:center; gap:10px;
+    }
+    .money-block-label::after { content:''; flex:1; height:1px; background:rgba(252,76,4,0.2); }
+    .money-text { font-size:15px; line-height:1.75; color:rgba(242,238,233,0.85); }
+    .money-text strong { color:var(--white); }
+
+    /* Depoimentos */
+    .dep-block {
+      margin-bottom:24px; border-radius:20px; padding:28px 24px;
+      background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08);
+    }
+    .dep-list { display:flex; flex-direction:column; gap:14px; }
+    .dep-item { display:flex; align-items:flex-start; gap:14px; }
+    .dep-avatar {
+      width:38px; height:38px; flex-shrink:0; border-radius:50%;
+      background:linear-gradient(135deg, var(--orange), #e63d00);
+      display:grid; place-items:center;
+      font-family:var(--font-body); font-size:15px; font-weight:700; color:#fff;
+    }
+    .dep-body { flex:1; }
+    .dep-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:4px; }
+    .dep-text { font-size:13px; color:var(--muted); line-height:1.6; font-style:italic; }
+
+    /* Price stack */
+    .cta-price-stack { display:flex; flex-direction:column; gap:2px; }
+    .cta-price-real { font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; color:var(--subtle); }
+    .cta-price-arrow { font-size:22px; color:rgba(255,255,255,0.25); align-self:center; }
+
     @media(max-width:480px){
       .intro-title { font-size:38px; }
       .q-ghost-num { font-size:120px; right:-16px; }
       .score-hero { padding:32px 22px; }
       .cta-block { padding:28px 20px; }
+      .dep-block { padding:22px 16px; }
+      .money-block { padding:22px 16px; }
     }
     @media(prefers-reduced-motion:reduce){ *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
@@ -464,12 +502,46 @@
         <div class="action-list" id="r-action-list"></div>
       </div>
 
+      <!-- Bloco dinheiro perdido -->
+      <div class="money-block" id="r-money-block">
+        <div class="money-block-label">💸 O que isso representa no seu bolso</div>
+        <div class="money-text" id="r-money-text"></div>
+      </div>
+
+      <!-- Depoimentos -->
+      <div class="dep-block">
+        <div class="diag-card-title" style="margin-bottom:16px;">💬 Quem já fez a imersão diz:</div>
+        <div class="dep-list">
+          <div class="dep-item">
+            <div class="dep-avatar">L</div>
+            <div class="dep-body">
+              <div class="dep-name">Luana Rodrigues de Souza</div>
+              <div class="dep-text">"Eu jurei que não ia comprar nem um curso — mas me apaixonei por esses dois dias de ensinamentos."</div>
+            </div>
+          </div>
+          <div class="dep-item">
+            <div class="dep-avatar">J</div>
+            <div class="dep-body">
+              <div class="dep-name">Janaina</div>
+              <div class="dep-text">"Essas 6 horas foram incríveis. Enchi um caderno com conteúdos e já tenho muitas ideias para por em prática."</div>
+            </div>
+          </div>
+          <div class="dep-item">
+            <div class="dep-avatar">B</div>
+            <div class="dep-body">
+              <div class="dep-name">Bruna Freitas Biezus</div>
+              <div class="dep-text">"Abriu uma janela para um novo nível de clareza e estratégia. Conteúdo prático e uma energia que inspira ação imediata."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- CTA Imersão -->
       <div class="cta-block">
         <div class="cta-urgency">🔥 Oferta por tempo limitado</div>
-        <h3 class="cta-title">Imersão Apareça e Venda — 2 noites que mudam o jogo do seu negócio</h3>
+        <h3 class="cta-title">Em 2 noites, você sai com plano de marketing pronto, conteúdo feito com IA e 1 ação de venda pra implementar amanhã cedo.</h3>
         <p class="cta-desc">
-          Em 2 noites ao vivo (25 e 26 de maio, 19h30), você sai com plano de marketing pronto, conteúdo feito com IA e ações de vendas pra implementar na semana seguinte. <strong>+35 mil empreendedores já treinados.</strong>
+          Imersão Apareça e Venda — 25 e 26 de maio, 19h30 ao vivo. Com quem já treinou <strong>+35 mil empreendedores</strong> em quase 40 países.
         </p>
         <div class="what-list">
           <div class="what-item">Plano de marketing personalizado para o seu negócio</div>
@@ -479,16 +551,23 @@
           <div class="what-item">Tendências de conteúdo que funcionam agora</div>
         </div>
         <div class="cta-price">
-          <span class="cta-price-old">R$ 37</span>
-          <span class="cta-price-new">R$ 17</span>
-          <span class="cta-price-badge">54% OFF hoje</span>
+          <div class="cta-price-stack">
+            <span class="cta-price-real">Valor real</span>
+            <span class="cta-price-old">R$ 297</span>
+          </div>
+          <div class="cta-price-arrow">→</div>
+          <div class="cta-price-stack">
+            <span class="cta-price-real" style="color:#4ade80">Hoje</span>
+            <span class="cta-price-new">R$ 17</span>
+          </div>
+          <span class="cta-price-badge">94% OFF</span>
         </div>
         <a href="https://pay.hotmart.com/B86161012H?off=vyhlgrnt&checkoutMode=10" class="cta-btn" target="_blank" rel="noopener">
           Garantir minha vaga por R$ 17 →
         </a>
         <p class="cta-guarantee">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.5l-3.6 1.9.7-4L2.2 5.7l4-.6L8 1.5z" stroke-linejoin="round"/></svg>
-          Acesso imediato · Online · 2 noites de imersão ao vivo
+          Acesso imediato · Online · 2 noites ao vivo · Sem risco
         </p>
       </div>
 
@@ -648,6 +727,7 @@ function renderQuestao() {
   const total = PERGUNTAS.length;
 
   document.getElementById('progress-fill').style.width = `${(atual / total) * 100}%`;
+  document.getElementById('q-counter').textContent = `${atual + 1} de ${total}`;
   document.getElementById('btn-back').style.visibility = atual > 0 ? 'visible' : 'hidden';
   document.getElementById('btn-next').disabled = true;
 
@@ -787,6 +867,9 @@ function mostrarResultado() {
 
   // Plano de ação
   document.getElementById('r-action-list').innerHTML = gerarPlano(pontuacao, contexto);
+
+  // Bloco dinheiro perdido
+  document.getElementById('r-money-text').innerHTML = gerarMoneyBlock(pontuacao, contexto);
 }
 
 /* ════════════════════════════════════════════════
@@ -990,6 +1073,24 @@ function gerarPlano(pts, ctx) {
         <div class="action-impact">${a.impact}</div>
       </div>
     </div>`).join('');
+}
+
+function gerarMoneyBlock(pts, ctx) {
+  const nicho = ctx.nicho || 'seu negócio';
+  const fat = ctx.faturamento || '';
+
+  if (pts <= 20) {
+    const perdaMensal = fat.includes('100') ? 'R$30–60 mil' : fat.includes('20') ? 'R$6–15 mil' : fat.includes('5 mil') ? 'R$1.500–3.000' : 'R$1–3 mil';
+    return `Negócios em ${nicho} que operam sem método perdem, em média, entre <strong>30% e 50% do faturamento potencial</strong> todo mês — em vendas que chegaram e foram embora por falta de processo de atendimento, conteúdo que não converte e clientes que pararam de comprar sem nenhuma ação de retenção.
+    <br><br>No seu caso, com ${fat || 'seu faturamento atual'}, isso pode representar <strong>${perdaMensal}/mês</strong> de receita que existe mas não está entrando. Não é pessimismo — é onde a estratégia entra.`;
+  } else if (pts <= 40) {
+    const perdaMensal = fat.includes('100') ? 'R$15–30 mil' : fat.includes('20') ? 'R$3–8 mil' : fat.includes('5 mil') ? 'R$800–2.000' : 'R$500–2 mil';
+    return `Você já tem movimentos certos — mas os gaps estratégicos ainda custam caro. Em ${nicho}, o que você deixa na mesa é principalmente <strong>ticket médio não aproveitado e clientes que comprariam de novo</strong> se você fizesse uma reativação ativa.
+    <br><br>Estimativa conservadora: <strong>${perdaMensal}/mês</strong> em oportunidade não capturada. Você está a poucos ajustes de virar esse número.`;
+  } else {
+    return `Você pensa como estrategista — e por isso sabe que cada ponto de ineficiência em escala custa mais. Em ${nicho} no seu nível, as perdas estão nos <strong>processos que ainda dependem de você</strong> para funcionar: conteúdo manual, atendimento não sistematizado, base de clientes sem nutrição mensal.
+    <br><br>O próximo salto não é trabalhar mais — é <strong>colocar o que já funciona em sistema</strong> e usar IA para multiplicar produção sem aumentar horas.`;
+  }
 }
 
 /* ════════════════════════════════════════════════
