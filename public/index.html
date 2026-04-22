@@ -392,15 +392,16 @@
       margin-bottom:24px; border-radius:20px; padding:24px 20px;
       background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08);
     }
-    .dep-list {
-      display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+    .dep-list { display:flex; flex-direction:column; gap:12px; }
+    .dep-item { display:flex; flex-direction:column; gap:6px; }
+    .dep-label {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      letter-spacing:0.10em; color:var(--orange); text-transform:uppercase;
     }
-    .dep-item { display:flex; }
     .dep-screenshot {
-      width:100%; border-radius:10px; display:block;
-      border:1px solid rgba(255,255,255,0.10);
-      object-fit:cover; object-position:top;
-      max-height:320px;
+      width:100%; display:block; border-radius:12px;
+      border:2px solid rgba(252,76,4,0.25);
+      box-shadow:0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
     }
 
     /* Price stack */
@@ -413,8 +414,7 @@
       .q-ghost-num { font-size:120px; right:-16px; }
       .score-hero { padding:32px 22px; }
       .cta-block { padding:28px 20px; }
-      .dep-block { padding:16px 12px; }
-      .dep-list { grid-template-columns:1fr; }
+      .dep-block { padding:18px 14px; }
       .money-block { padding:22px 16px; }
     }
     @media(prefers-reduced-motion:reduce){ *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
@@ -514,12 +514,15 @@
         <div class="diag-card-title" style="margin-bottom:16px;">💬 Resultados reais de quem aplicou:</div>
         <div class="dep-list">
           <div class="dep-item">
+            <div class="dep-label">💬 Jésica · Loja de roupas · R$10.770 em 1 dia</div>
             <img src="dep1.png" class="dep-screenshot" alt="Depoimento Jésica" loading="lazy">
           </div>
           <div class="dep-item">
+            <div class="dep-label">💬 Sayuri · Lingerie · 8 mil em 3 dias</div>
             <img src="dep2.png" class="dep-screenshot" alt="Depoimento Sayuri" loading="lazy">
           </div>
           <div class="dep-item">
+            <div class="dep-label">💬 Resultado campanha · mais de 21k em vendas</div>
             <img src="dep3.png" class="dep-screenshot" alt="Depoimento 21k" loading="lazy">
           </div>
         </div>
