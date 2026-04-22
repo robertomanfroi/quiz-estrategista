@@ -203,8 +203,9 @@
     }
     .q-input::placeholder { color:var(--subtle); }
     .q-input:focus { outline:none; border-color:rgba(252,76,4,0.5); box-shadow:0 0 0 3px rgba(252,76,4,0.10); }
-    select.q-input { cursor:pointer; }
+    select.q-input { cursor:pointer; font-size:16px; padding:18px 20px; border-color:rgba(252,76,4,0.35); background:rgba(252,76,4,0.05); color:var(--white); border-radius:var(--r); font-weight:500; }
     select.q-input option { background:#1a1917; color:#fff; }
+    .select-label { font-size:12px; color:var(--orange); font-family:var(--font-mono); letter-spacing:0.08em; margin-bottom:8px; font-weight:500; }
 
     /* ══ RESULTADO ══ */
     #screen-resultado { display:none; }
@@ -440,7 +441,7 @@
       <p class="intro-sub">3 minutinhos. Descubra seu nível estratégico e veja o que está travando o crescimento do seu negócio.</p>
       <div class="intro-pills">
         <span class="intro-pill">~3 minutinhos</span>
-        <span class="intro-pill">10 perguntas</span>
+        
         <span class="intro-pill">Diagnóstico grátis</span>
       </div>
       <button class="btn-start" onclick="iniciarQuiz()">
@@ -749,7 +750,7 @@ function renderQuestao() {
     html += '</div>';
   } else if (q.tipo === 'select') {
     const val = respostas[atual] || '';
-    html += `<select class="q-input" onchange="selecionarSelect(this.value)">
+    html += `<div class="select-label">👇 Toque para selecionar</div><select class="q-input" onchange="selecionarSelect(this.value)">
       <option value="">Selecione seu nicho...</option>`;
     q.opcoes.forEach(op => {
       html += `<option value="${op}" ${val === op ? 'selected' : ''}>${op}</option>`;
