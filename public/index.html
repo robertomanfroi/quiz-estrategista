@@ -398,10 +398,16 @@
       background:linear-gradient(135deg, var(--orange), #e63d00);
       display:grid; place-items:center;
       font-family:var(--font-body); font-size:15px; font-weight:700; color:#fff;
+      overflow:hidden;
     }
+    .dep-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
     .dep-body { flex:1; }
     .dep-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:4px; }
     .dep-text { font-size:13px; color:var(--muted); line-height:1.6; font-style:italic; }
+    .dep-screenshot {
+      width:100%; border-radius:12px; margin-top:10px;
+      border:1px solid rgba(255,255,255,0.08);
+    }
 
     /* Price stack */
     .cta-price-stack { display:flex; flex-direction:column; gap:2px; }
@@ -510,28 +516,16 @@
 
       <!-- Depoimentos -->
       <div class="dep-block">
-        <div class="diag-card-title" style="margin-bottom:16px;">💬 Quem já fez a imersão diz:</div>
+        <div class="diag-card-title" style="margin-bottom:16px;">💬 Resultados reais de quem aplicou:</div>
         <div class="dep-list">
-          <div class="dep-item">
-            <div class="dep-avatar">L</div>
-            <div class="dep-body">
-              <div class="dep-name">Luana Rodrigues de Souza</div>
-              <div class="dep-text">"Eu jurei que não ia comprar nem um curso — mas me apaixonei por esses dois dias de ensinamentos."</div>
-            </div>
+          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
+            <img src="dep1.png" class="dep-screenshot" alt="Depoimento Jésica — R$10.770 em um único dia" loading="lazy">
           </div>
-          <div class="dep-item">
-            <div class="dep-avatar">J</div>
-            <div class="dep-body">
-              <div class="dep-name">Janaina</div>
-              <div class="dep-text">"Essas 6 horas foram incríveis. Enchi um caderno com conteúdos e já tenho muitas ideias para por em prática."</div>
-            </div>
+          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
+            <img src="dep2.png" class="dep-screenshot" alt="Depoimento Sayuri — 8 mil em 3 dias" loading="lazy">
           </div>
-          <div class="dep-item">
-            <div class="dep-avatar">B</div>
-            <div class="dep-body">
-              <div class="dep-name">Bruna Freitas Biezus</div>
-              <div class="dep-text">"Abriu uma janela para um novo nível de clareza e estratégia. Conteúdo prático e uma energia que inspira ação imediata."</div>
-            </div>
+          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
+            <img src="dep3.png" class="dep-screenshot" alt="Depoimento — mais de 21k em vendas" loading="lazy">
           </div>
         </div>
       </div>
@@ -541,7 +535,7 @@
         <div class="cta-urgency">🔥 Oferta por tempo limitado</div>
         <h3 class="cta-title">Em 2 noites, você sai com plano de marketing pronto, conteúdo feito com IA e 1 ação de venda pra implementar amanhã cedo.</h3>
         <p class="cta-desc">
-          Imersão Apareça e Venda — 25 e 26 de maio, 19h30 ao vivo. Com quem já treinou <strong>+35 mil empreendedores</strong> em quase 40 países.
+          Imersão Apareça e Venda, dias 25 e 26 de maio, 19h30 ao vivo. Com quem já treinou <strong>+35 mil empreendedores</strong> em quase 40 países.
         </p>
         <div class="what-list">
           <div class="what-item">Plano de marketing personalizado para o seu negócio</div>
@@ -552,15 +546,15 @@
         </div>
         <div class="cta-price">
           <div class="cta-price-stack">
-            <span class="cta-price-real">Valor real</span>
-            <span class="cta-price-old">R$ 297</span>
+            <span class="cta-price-real">De</span>
+            <span class="cta-price-old">R$ 37</span>
           </div>
           <div class="cta-price-arrow">→</div>
           <div class="cta-price-stack">
-            <span class="cta-price-real" style="color:#4ade80">Hoje</span>
+            <span class="cta-price-real" style="color:#4ade80">Por apenas</span>
             <span class="cta-price-new">R$ 17</span>
           </div>
-          <span class="cta-price-badge">94% OFF</span>
+          <span class="cta-price-badge">54% OFF</span>
         </div>
         <a href="https://pay.hotmart.com/B86161012H?off=vyhlgrnt&checkoutMode=10" class="cta-btn" target="_blank" rel="noopener">
           Garantir minha vaga por R$ 17 →
@@ -608,7 +602,7 @@ const PERGUNTAS = [
     opcoes: [
       { letra:'A', texto:'Não tenho ideia', pts:0 },
       { letra:'B', texto:'Acho que foi o Instagram', pts:3 },
-      { letra:'C', texto:'Sim — acompanho de onde vem cada cliente', pts:10 },
+      { letra:'C', texto:'Sim, acompanho de onde vem cada cliente', pts:10 },
     ]
   },
   {
@@ -881,18 +875,18 @@ function gerarDiagnostico(pts, ctx) {
 
   if (pts <= 20) {
     return `Você está operando mais no <strong>improviso do que na estratégia</strong>.
-    Em ${nicho}, isso se traduz em dias de altos e baixos sem conseguir entender por quê —
+    Em ${nicho}, isso se traduz em dias de altos e baixos sem conseguir entender por quê.
     uma semana cheia, outra vazia. Você trabalha muito, mas a energia não se converte em resultado previsível.
     A boa notícia: o problema não é o seu produto. É a falta de método.`;
   } else if (pts <= 40) {
     return `Você já tem <strong>alguns movimentos certos</strong>, mas ainda mistura ação com estratégia aleatória.
-    Em ${nicho}${fat ? ' com ' + fat + ' de faturamento' : ''}, você sente que poderia vender mais —
+    Em ${nicho}${fat ? ' com ' + fat + ' de faturamento' : ''}, você sente que poderia vender mais.
     e tem razão. O que falta é consistência: uma base de conteúdo que gera desejo,
     um processo de atendimento que converte, e ações de vendas com intenção.
     Você está a poucos ajustes de dar um salto real.`;
   } else {
     return `Você já <strong>pensa como estrategista</strong>. Entende que venda é consequência de método,
-    não de sorte. Em ${nicho}, você tem visão — mas provavelmente ainda deixa dinheiro na mesa
+    não de sorte. Em ${nicho}, você tem visão, mas provavelmente ainda deixa dinheiro na mesa
     em pontos específicos: escala de conteúdo, ticket médio ou aproveitamento da base de clientes.
     O próximo nível é colocar isso em sistema e acelerar com as ferramentas certas.`;
   }
@@ -927,7 +921,7 @@ function gerarOportunidades(pts, ctx) {
     opps.push({
       icon: '📈',
       title: 'Ticket médio com potencial de crescer',
-      desc: `Para ${nicho || 'o seu nicho'}, aumentar o ticket em 20% é mais fácil do que dobrar clientes. Combinação de produto/serviço, upsell no atendimento ou pacote fechado — você ainda não explorou isso.`
+      desc: `Para ${nicho || 'o seu nicho'}, aumentar o ticket em 20% é mais fácil do que dobrar clientes. Combinação de produto/serviço, upsell no atendimento ou pacote fechado. Você ainda não explorou isso.`
     });
     opps.push({
       icon: '🎯',
@@ -938,13 +932,13 @@ function gerarOportunidades(pts, ctx) {
       opps.push({
         icon: '🚀',
         title: 'Tráfego pago: alavanca fora do uso',
-        desc: `Com ${fat || 'seu faturamento atual'}, um investimento pequeno e inteligente em anúncios pode amplificar o que já funciona no orgânico. Você está crescendo no orgânico puro — mais lento.`
+        desc: `Com ${fat || 'seu faturamento atual'}, um investimento pequeno e inteligente em anúncios pode amplificar o que já funciona no orgânico. Você está crescendo no orgânico puro. Crescimento mais lento.`
       });
     } else {
       opps.push({
         icon: '🔄',
         title: 'Anúncio bom, funil fraco',
-        desc: 'Você investe em tráfego, mas se a venda não fecha no atendimento, o dinheiro vai embora. O problema raramente é o anúncio — é o que acontece depois do clique.'
+        desc: 'Você investe em tráfego, mas se a venda não fecha no atendimento, o dinheiro vai embora. O problema raramente é o anúncio. É o que acontece depois do clique.'
       });
     }
   } else {
@@ -956,7 +950,7 @@ function gerarOportunidades(pts, ctx) {
     opps.push({
       icon: '🏆',
       title: 'Posicionamento premium ainda inexplorado',
-      desc: `Em ${nicho || 'seu mercado'}, quem se posiciona como referência cobra mais e fecha mais rápido. Sua expertise merece preço premium — mas o posicionamento precisa comunicar isso.`
+      desc: `Em ${nicho || 'seu mercado'}, quem se posiciona como referência cobra mais e fecha mais rápido. Sua expertise merece preço premium, mas o posicionamento precisa comunicar isso.`
     });
     opps.push({
       icon: '📊',
@@ -1034,7 +1028,7 @@ function gerarPlano(pts, ctx) {
       {
         num: '01',
         title: 'Usar IA para produzir conteúdo em escala',
-        desc: `Com as ferramentas certas, você produz em 2 horas o que levaria uma semana. Roteiros de reels, legendas, ideias de campanha — tudo com a sua voz e para o seu nicho.`,
+        desc: `Com as ferramentas certas, você produz em 2 horas o que levaria uma semana. Roteiros de reels, legendas, ideias de campanha, tudo com a sua voz e para o seu nicho.`,
         impact: '→ 5x mais conteúdo com o mesmo tempo'
       },
       {
@@ -1081,15 +1075,15 @@ function gerarMoneyBlock(pts, ctx) {
 
   if (pts <= 20) {
     const perdaMensal = fat.includes('100') ? 'R$30–60 mil' : fat.includes('20') ? 'R$6–15 mil' : fat.includes('5 mil') ? 'R$1.500–3.000' : 'R$1–3 mil';
-    return `Negócios em ${nicho} que operam sem método perdem, em média, entre <strong>30% e 50% do faturamento potencial</strong> todo mês — em vendas que chegaram e foram embora por falta de processo de atendimento, conteúdo que não converte e clientes que pararam de comprar sem nenhuma ação de retenção.
-    <br><br>No seu caso, com ${fat || 'seu faturamento atual'}, isso pode representar <strong>${perdaMensal}/mês</strong> de receita que existe mas não está entrando. Não é pessimismo — é onde a estratégia entra.`;
+    return `Negócios em ${nicho} que operam sem método perdem, em média, entre <strong>30% e 50% do faturamento potencial</strong> todo mês: em vendas que chegaram e foram embora por falta de processo de atendimento, conteúdo que não converte e clientes que pararam de comprar sem nenhuma ação de retenção.
+    <br><br>No seu caso, com ${fat || 'seu faturamento atual'}, isso pode representar <strong>${perdaMensal}/mês</strong> de receita que existe mas não está entrando. Não é pessimismo. É onde a estratégia entra.`;
   } else if (pts <= 40) {
     const perdaMensal = fat.includes('100') ? 'R$15–30 mil' : fat.includes('20') ? 'R$3–8 mil' : fat.includes('5 mil') ? 'R$800–2.000' : 'R$500–2 mil';
-    return `Você já tem movimentos certos — mas os gaps estratégicos ainda custam caro. Em ${nicho}, o que você deixa na mesa é principalmente <strong>ticket médio não aproveitado e clientes que comprariam de novo</strong> se você fizesse uma reativação ativa.
+    return `Você já tem movimentos certos, mas os gaps estratégicos ainda custam caro. Em ${nicho}, o que você deixa na mesa é principalmente <strong>ticket médio não aproveitado e clientes que comprariam de novo</strong> se você fizesse uma reativação ativa.
     <br><br>Estimativa conservadora: <strong>${perdaMensal}/mês</strong> em oportunidade não capturada. Você está a poucos ajustes de virar esse número.`;
   } else {
-    return `Você pensa como estrategista — e por isso sabe que cada ponto de ineficiência em escala custa mais. Em ${nicho} no seu nível, as perdas estão nos <strong>processos que ainda dependem de você</strong> para funcionar: conteúdo manual, atendimento não sistematizado, base de clientes sem nutrição mensal.
-    <br><br>O próximo salto não é trabalhar mais — é <strong>colocar o que já funciona em sistema</strong> e usar IA para multiplicar produção sem aumentar horas.`;
+    return `Você pensa como estrategista. Por isso sabe que cada ponto de ineficiência em escala custa mais. Em ${nicho} no seu nível, as perdas estão nos <strong>processos que ainda dependem de você</strong> para funcionar: conteúdo manual, atendimento não sistematizado, base de clientes sem nutrição mensal.
+    <br><br>O próximo salto não é trabalhar mais. O caminho é <strong>colocar o que já funciona em sistema</strong> e usar IA para multiplicar produção sem aumentar horas.`;
   }
 }
 
