@@ -389,25 +389,18 @@
 
     /* Depoimentos */
     .dep-block {
-      margin-bottom:24px; border-radius:20px; padding:28px 24px;
+      margin-bottom:24px; border-radius:20px; padding:24px 20px;
       background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08);
     }
-    .dep-list { display:flex; flex-direction:column; gap:14px; }
-    .dep-item { display:flex; align-items:flex-start; gap:14px; }
-    .dep-avatar {
-      width:38px; height:38px; flex-shrink:0; border-radius:50%;
-      background:linear-gradient(135deg, var(--orange), #e63d00);
-      display:grid; place-items:center;
-      font-family:var(--font-body); font-size:15px; font-weight:700; color:#fff;
-      overflow:hidden;
+    .dep-list {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
     }
-    .dep-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-    .dep-body { flex:1; }
-    .dep-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:4px; }
-    .dep-text { font-size:13px; color:var(--muted); line-height:1.6; font-style:italic; }
+    .dep-item { display:flex; }
     .dep-screenshot {
-      width:100%; border-radius:12px; margin-top:10px;
-      border:1px solid rgba(255,255,255,0.08);
+      width:100%; border-radius:10px; display:block;
+      border:1px solid rgba(255,255,255,0.10);
+      object-fit:cover; object-position:top;
+      max-height:320px;
     }
 
     /* Price stack */
@@ -420,7 +413,8 @@
       .q-ghost-num { font-size:120px; right:-16px; }
       .score-hero { padding:32px 22px; }
       .cta-block { padding:28px 20px; }
-      .dep-block { padding:22px 16px; }
+      .dep-block { padding:16px 12px; }
+      .dep-list { grid-template-columns:1fr; }
       .money-block { padding:22px 16px; }
     }
     @media(prefers-reduced-motion:reduce){ *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
@@ -519,14 +513,14 @@
       <div class="dep-block">
         <div class="diag-card-title" style="margin-bottom:16px;">💬 Resultados reais de quem aplicou:</div>
         <div class="dep-list">
-          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
-            <img src="dep1.png" class="dep-screenshot" alt="Depoimento Jésica — R$10.770 em um único dia" loading="lazy">
+          <div class="dep-item">
+            <img src="dep1.png" class="dep-screenshot" alt="Depoimento Jésica" loading="lazy">
           </div>
-          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
-            <img src="dep2.png" class="dep-screenshot" alt="Depoimento Sayuri — 8 mil em 3 dias" loading="lazy">
+          <div class="dep-item">
+            <img src="dep2.png" class="dep-screenshot" alt="Depoimento Sayuri" loading="lazy">
           </div>
-          <div class="dep-item" style="flex-direction:column;align-items:flex-start;">
-            <img src="dep3.png" class="dep-screenshot" alt="Depoimento — mais de 21k em vendas" loading="lazy">
+          <div class="dep-item">
+            <img src="dep3.png" class="dep-screenshot" alt="Depoimento 21k" loading="lazy">
           </div>
         </div>
       </div>
