@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Você é estrategista no seu negócio?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:       #0C0B0A;
+      --bg2:      #111010;
+      --surface:  rgba(255,255,255,0.035);
+      --surface2: rgba(255,255,255,0.07);
+      --border:   rgba(255,255,255,0.08);
+      --border2:  rgba(255,255,255,0.14);
+      --orange:   #FC4C04;
+      --orange-d: rgba(252,76,4,0.18);
+      --orange-g: rgba(252,76,4,0.30);
+      --gold:     #E8B86D;
+      --white:    #F2EEE9;
+      --muted:    rgba(242,238,233,0.50);
+      --subtle:   rgba(242,238,233,0.26);
+      --r:        14px;
+      --ease:     cubic-bezier(0.16,1,0.3,1);
+
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body:    'Outfit', system-ui, sans-serif;
+      --font-mono:    'DM Mono', monospace;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────── */
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRAIN ──────────────────────────────────────────────── */
+    body::after {
+      content:'';
+      position:fixed; inset:0; z-index:0;
+      pointer-events:none;
+      opacity:0.035;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:160px 160px;
+    }
+
+    /* ── PROGRESS BAR ───────────────────────────────────────── */
+    .progress-bar {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+    }
+    .progress-fill {
+      height:100%;
+      background: linear-gradient(90deg, var(--orange), #ff7b35);
+      transition: width 400ms var(--ease);
+      box-shadow: 0 0 12px var(--orange-g);
+    }
+
+    /* ── SHELL ──────────────────────────────────────────────── */
+    .shell {
+      position:relative; z-index:1;
+      min-height:100dvh;
+      display:flex; flex-direction:column;
+    }
+
+    /* ── DECORATIVE GRID LINES ──────────────────────────────── */
+    .grid-lines {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      overflow:hidden; opacity:0.04;
+    }
+    .grid-lines::before {
+      content:'';
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(252,76,4,0.6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(252,76,4,0.6) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .grid-lines::after {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, transparent 40%, var(--bg) 100%);
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TELA: INTRO
+    ══════════════════════════════════════════════════════════ */
+    #screen-intro {
+      display:flex; flex-direction:column;
+      min-height:100dvh;
+    }
+    .intro-wrap {
+      flex:1;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding: 60px 24px 48px;
+      text-align:center;
+      max-width: 640px;
+      margin: 0 auto; width:100%;
+    }
+    .intro-label {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight:500;
+      letter-spacing: 0.16em; text-transform:uppercase;
+      color: var(--orange);
+      margin-bottom: 24px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .intro-label::before, .intro-label::after {
+      content:''; flex:1; height:1px;
+      background: linear-gradient(90deg, transparent, rgba(252,76,4,0.4));
+    }
+    .intro-label::after {
+      background: linear-gradient(90deg, rgba(252,76,4,0.4), transparent);
+    }
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 8vw, 72px);
+      line-height: 1.06;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .intro-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+    .intro-sub {
+      font-size: clamp(15px,3vw,17px);
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 20px auto 40px;
+    }
+    .intro-pills {
+      display:flex; flex-wrap:wrap; justify-content:center; gap:8px;
+      margin-bottom: 48px;
+    }
+    .intro-pill {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight:500;
+      letter-spacing: 0.04em;
+      padding: 6px 14px;
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      color: var(--subtle);
+    }
+    .btn-start {
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 18px 48px;
+      background: var(--orange);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 15px; font-weight:700;
+      border: none; border-radius: var(--r);
+      cursor:pointer;
+      box-shadow: 0 0 48px var(--orange-g), 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14);
+      transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+      touch-action:manipulation;
+      position:relative; overflow:hidden;
+    }
+    .btn-start::before {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 55%);
+    }
+    .btn-start:hover { transform:translateY(-3px); box-shadow:0 0 64px rgba(252,76,4,0.45), 0 10px 32px rgba(0,0,0,0.5); }
+    .btn-start:active { transform:scale(0.97); }
+    .btn-start svg { width:18px; height:18px; transition:transform 220ms var(--ease); }
+    .btn-start:hover svg { transform:translateX(4px); }
+
+    .intro-disclaimer {
+      margin-top: 28px;
+      font-size: 12px; color: var(--subtle);
+      display:flex; align-items:center; gap:8px; justify-content:center;
+    }
+    .intro-disclaimer svg { width:14px; height:14px; color:var(--orange); flex-shrink:0; }
+
+    /* ══════════════════════════════════════════════════════════
+       TELA: QUIZ
+    ══════════════════════════════════════════════════════════ */
+    #screen-quiz { display:none; }
+    .quiz-wrap {
+      min-height:100dvh;
+      display:flex; flex-direction:column;
+      padding: 24px;
+    }
+    .quiz-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom: 40px;
+      padding-top: 12px;
+    }
+    .quiz-counter {
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight:500;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+    }
+    .quiz-pts {
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--subtle);
+    }
+
+    /* Question card */
+    .question-area {
+      flex:1;
+      display:flex; flex-direction:column; justify-content:center;
+      max-width: 620px;
+      margin: 0 auto; width:100%;
+      position:relative;
+    }
+    .q-ghost-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(120px, 28vw, 200px);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(252,76,4,0.10);
+      position: absolute;
+      top: -20px; right: -10px;
+      pointer-events:none;
+      user-select:none;
+      z-index:0;
+      transition: opacity 300ms;
+    }
+    .q-block-tag {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight:500;
+      letter-spacing: 0.14em; text-transform:uppercase;
+      color: var(--orange);
+      opacity:0.8;
+      margin-bottom: 14px;
+      position:relative; z-index:1;
+    }
+    .q-text {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 5vw, 32px);
+      line-height: 1.3;
+      color: var(--white);
+      margin-bottom: 32px;
+      position:relative; z-index:1;
+      max-width: 500px;
+    }
+    .q-options {
+      display: flex; flex-direction:column; gap:10px;
+      position:relative; z-index:1;
+    }
+    .q-opt {
+      display:flex; align-items:flex-start; gap:14px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r);
+      cursor:pointer;
+      transition: all 200ms var(--ease);
+      touch-action:manipulation;
+      position:relative; overflow:hidden;
+    }
+    .q-opt::before {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(252,76,4,0.07) 0%, transparent 60%);
+      opacity:0; transition:opacity 200ms;
+    }
+    .q-opt:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.14); }
+    .q-opt:hover::before { opacity:1; }
+    .q-opt.selected {
+      background: rgba(252,76,4,0.09);
+      border-color: rgba(252,76,4,0.40);
+      box-shadow: 0 0 20px rgba(252,76,4,0.08);
+    }
+    .q-opt.selected::before { opacity:1; }
+    .q-opt-letter {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight:500;
+      letter-spacing:0.06em;
+      width: 26px; height: 26px; flex-shrink:0;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      display:grid; place-items:center;
+      color: var(--muted);
+      transition: all 200ms;
+      margin-top: 1px;
+    }
+    .q-opt.selected .q-opt-letter {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+      box-shadow: 0 0 12px var(--orange-g);
+    }
+    .q-opt-text {
+      font-size: 14px; font-weight:500;
+      color: var(--white); line-height:1.5;
+      flex:1;
+    }
+
+    /* Navigation buttons */
+    .q-nav {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-top: 36px;
+      max-width: 620px;
+      margin-left:auto; margin-right:auto; width:100%;
+      padding-bottom: 24px;
+    }
+    .btn-next {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 13px 28px;
+      background: linear-gradient(135deg, var(--orange), #e63d00);
+      color:#fff;
+      font-family: var(--font-body);
+      font-size: 14px; font-weight:700;
+      border:none; border-radius:var(--r);
+      cursor:pointer;
+      box-shadow: 0 0 28px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
+      transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), opacity 200ms;
+      touch-action:manipulation;
+    }
+    .btn-next:hover { transform:translateY(-2px); box-shadow:0 0 44px rgba(252,76,4,0.45), inset 0 1px 0 rgba(255,255,255,0.18); }
+    .btn-next:active { transform:scale(0.97); }
+    .btn-next:disabled { opacity:0.35; pointer-events:none; }
+    .btn-next svg { width:15px; height:15px; transition:transform 200ms var(--ease); }
+    .btn-next:hover svg { transform:translateX(3px); }
+    .btn-back {
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 13px 18px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 13px; font-weight:500;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius:var(--r);
+      cursor:pointer;
+      transition: all 200ms var(--ease);
+    }
+    .btn-back:hover { background:rgba(255,255,255,0.06); color:var(--white); }
+    .btn-back svg { width:14px; height:14px; }
+
+    /* Slide animation */
+    .question-area { animation: slideIn 350ms var(--ease); }
+    @keyframes slideIn {
+      from { opacity:0; transform:translateX(30px) scale(0.99); }
+      to   { opacity:1; transform:translateX(0) scale(1); }
+    }
+    .slide-out { animation: slideOut 200ms var(--ease) forwards; }
+    @keyframes slideOut {
+      from { opacity:1; transform:translateX(0); }
+      to   { opacity:0; transform:translateX(-30px); }
+    }
+
+    /* Open text / select */
+    .q-input {
+      width:100%; padding:14px 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius:var(--r);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size:15px;
+      transition: border-color 200ms, box-shadow 200ms;
+      -webkit-appearance:none;
+    }
+    .q-input::placeholder { color: var(--subtle); }
+    .q-input:focus {
+      outline:none;
+      border-color: rgba(252,76,4,0.5);
+      box-shadow: 0 0 0 3px rgba(252,76,4,0.10);
+    }
+    select.q-input { cursor:pointer; }
+    select.q-input option { background:#1a1917; color:#fff; }
+
+    /* ══════════════════════════════════════════════════════════
+       TELA: LOADING
+    ══════════════════════════════════════════════════════════ */
+    #screen-loading { display:none; }
+    .loading-wrap {
+      min-height:100dvh;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:40px 24px; text-align:center;
+    }
+    .loading-orb {
+      position:relative;
+      width:100px; height:100px;
+      margin-bottom:40px;
+    }
+    .orb-ring {
+      position:absolute; inset:0;
+      border-radius:50%;
+      border: 1.5px solid rgba(255,255,255,0.05);
+      border-top-color: var(--orange);
+      animation: spin 1s linear infinite;
+    }
+    .orb-ring-2 {
+      position:absolute; inset:12px;
+      border-radius:50%;
+      border: 1px solid rgba(255,255,255,0.03);
+      border-top-color: rgba(252,76,4,0.4);
+      animation: spin 1.8s linear infinite reverse;
+    }
+    .orb-dot {
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+    }
+    .orb-dot::after {
+      content:'';
+      width:14px; height:14px;
+      background:var(--orange);
+      border-radius:50%;
+      box-shadow:0 0 24px var(--orange-g);
+      animation: breathe 1.5s ease infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes breathe {
+      0%,100% { transform:scale(1); opacity:1; }
+      50% { transform:scale(0.8); opacity:0.6; }
+    }
+    .loading-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .loading-sub { font-size:14px; color:var(--muted); margin-bottom:32px; }
+    .loading-steps {
+      display:flex; flex-direction:column; gap:8px;
+      width:100%; max-width:340px; text-align:left;
+    }
+    .lstep {
+      display:flex; align-items:center; gap:12px;
+      padding:11px 15px;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:10px;
+      font-size:13px; color:var(--subtle);
+      transition:all 300ms var(--ease);
+    }
+    .lstep.ativo {
+      background:rgba(252,76,4,0.07);
+      border-color:rgba(252,76,4,0.22);
+      color:var(--white);
+    }
+    .lstep.done { border-color:rgba(252,76,4,0.18); color:var(--muted); }
+    .lstep-dot {
+      width:7px; height:7px; flex-shrink:0;
+      border-radius:50%; background:rgba(255,255,255,0.2);
+      transition:all 300ms;
+    }
+    .lstep.ativo .lstep-dot {
+      background:var(--orange);
+      box-shadow:0 0 8px var(--orange-g);
+      animation:breathe 1.2s ease infinite;
+    }
+    .lstep.done .lstep-dot { background:rgba(252,76,4,0.5); }
+
+    /* ══════════════════════════════════════════════════════════
+       TELA: RESULTADO
+    ══════════════════════════════════════════════════════════ */
+    #screen-resultado { display:none; }
+    .resultado-wrap {
+      max-width:760px;
+      margin:0 auto;
+      padding:40px 20px 80px;
+    }
+
+    /* Score hero */
+    .score-hero {
+      position:relative;
+      padding:48px 36px;
+      border-radius:20px;
+      background: linear-gradient(135deg, rgba(252,76,4,0.10) 0%, rgba(252,76,4,0.03) 60%, transparent 100%);
+      border: 1px solid rgba(252,76,4,0.18);
+      margin-bottom:32px;
+      overflow:hidden;
+    }
+    .score-hero::before {
+      content:'';
+      position:absolute; top:-60px; right:-60px;
+      width:240px; height:240px;
+      background:radial-gradient(circle, rgba(252,76,4,0.14) 0%, transparent 70%);
+      border-radius:50%; pointer-events:none;
+    }
+    .score-label-top {
+      font-family: var(--font-mono);
+      font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--orange); margin-bottom:16px;
+    }
+    .score-display {
+      display:flex; align-items:flex-end; gap:16px;
+      margin-bottom:12px;
+    }
+    .score-number {
+      font-family: var(--font-display);
+      font-style:italic;
+      font-size: clamp(64px, 14vw, 96px);
+      line-height:1;
+      color:var(--white);
+    }
+    .score-denom {
+      font-family: var(--font-display);
+      font-size:28px; color:rgba(242,238,233,0.3);
+      margin-bottom:12px;
+    }
+    .score-nivel {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 16px;
+      border-radius:100px;
+      font-family: var(--font-mono);
+      font-size:11px; font-weight:500;
+      letter-spacing:0.06em;
+      background:rgba(252,76,4,0.14);
+      border:1px solid rgba(252,76,4,0.30);
+      color:var(--orange);
+      margin-bottom:6px;
+    }
+    .score-nivel.medio { background:rgba(232,184,109,0.10); border-color:rgba(232,184,109,0.30); color:var(--gold); }
+    .score-nivel.alto { background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.25); color:#4ade80; }
+    .score-nicho {
+      font-size:13px; color:var(--subtle); margin-top:10px;
+    }
+
+    /* Report */
+    .report-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius:20px;
+      padding:36px 32px;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      line-height:1.7;
+      font-size:15px;
+      color:rgba(242,238,233,0.88);
+      margin-bottom:24px;
+    }
+    @media(max-width:480px){ .report-card { padding:24px 18px; } }
+    .report-card h2 {
+      font-family: var(--font-display);
+      font-size:20px; font-weight:400;
+      color:var(--white);
+      margin:32px 0 12px;
+      padding-bottom:10px;
+      border-bottom:1px solid rgba(255,255,255,0.07);
+    }
+    .report-card h2:first-child { margin-top:0; }
+    .report-card h3 {
+      font-size:15px; font-weight:700;
+      color:var(--gold);
+      margin:20px 0 8px;
+    }
+    .report-card strong { color:var(--white); font-weight:700; }
+    .report-card em { color:var(--orange); font-style:normal; font-weight:500; }
+    .report-card ul, .report-card ol { padding-left:20px; margin:10px 0; }
+    .report-card li { margin-bottom:6px; }
+    .report-card blockquote {
+      border-left:3px solid var(--orange);
+      padding:12px 18px;
+      margin:16px 0;
+      background:rgba(252,76,4,0.07);
+      border-radius:0 10px 10px 0;
+      font-style:italic; color:rgba(242,238,233,0.85);
+    }
+
+    /* CTA */
+    .cta-block {
+      margin-bottom:24px;
+      border-radius:20px;
+      background: linear-gradient(135deg, rgba(252,76,4,0.10) 0%, rgba(252,76,4,0.03) 100%);
+      border: 1px solid rgba(252,76,4,0.22);
+      padding:32px 28px;
+    }
+    .cta-eyebrow {
+      font-family:var(--font-mono);
+      font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase;
+      color:var(--orange); margin-bottom:10px;
+    }
+    .cta-title {
+      font-family:var(--font-display);
+      font-style:italic;
+      font-size:22px; color:var(--white);
+      margin-bottom:10px;
+    }
+    .cta-desc { font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
+    .cta-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:14px 28px; border-radius:var(--r);
+      background: linear-gradient(135deg, var(--orange), #e63d00);
+      color:#fff;
+      font-size:13px; font-weight:700;
+      text-decoration:none;
+      box-shadow:0 0 32px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
+      transition:transform 200ms var(--ease), box-shadow 200ms;
+    }
+    .cta-btn:hover { transform:translateY(-2px); box-shadow:0 0 48px rgba(252,76,4,0.45); }
+
+    /* Action buttons */
+    .action-btns { display:flex; flex-direction:column; gap:10px; }
+    .btn-outline {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      width:100%; padding:15px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:var(--r);
+      color:var(--muted);
+      font-family:var(--font-body);
+      font-size:13px; font-weight:600;
+      cursor:pointer;
+      transition:all 200ms var(--ease);
+      touch-action:manipulation;
+    }
+    .btn-outline:hover { background:rgba(255,255,255,0.08); color:var(--white); }
+    .btn-outline svg { width:15px; height:15px; }
+    .btn-outline.green { border-color:rgba(34,197,94,0.25); color:rgba(34,197,94,0.9); }
+    .btn-outline.green:hover { background:rgba(34,197,94,0.07); }
+
+    /* Footer */
+    footer {
+      text-align:center;
+      padding:28px 24px;
+      font-size:12px; color:var(--subtle);
+      border-top:1px solid rgba(255,255,255,0.06);
+    }
+    footer strong { color:var(--muted); }
+
+    /* ── Responsive ─────────────────────────────────────────── */
+    @media(max-width:480px){
+      .intro-title { font-size:38px; }
+      .q-ghost-num { font-size:120px; right:-16px; }
+      .score-hero { padding:32px 22px; }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+<div class="grid-lines" aria-hidden="true"></div>
+
+<div class="shell">
+
+  <!-- ══════════ INTRO ══════════ -->
+  <div id="screen-intro">
+    <div class="intro-wrap">
+      <div class="intro-label">Engrene · Diagnóstico Estratégico</div>
+
+      <h1 class="intro-title">
+        Você é<br><em>estrategista</em><br>no seu negócio?
+      </h1>
+
+      <p class="intro-sub">
+        16 perguntas. 3 minutos. Descubra seu nível estratégico e receba um plano de ação personalizado com IA.
+      </p>
+
+      <div class="intro-pills">
+        <span class="intro-pill">16 perguntas</span>
+        <span class="intro-pill">~3 minutos</span>
+        <span class="intro-pill">Plano gerado por IA</span>
+        <span class="intro-pill">Grátis</span>
+      </div>
+
+      <button class="btn-start" onclick="iniciarQuiz()">
+        Descobrir meu nível
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <p class="intro-disclaimer">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2a4 4 0 100 8 4 4 0 000-8zM3.5 14c0-2.2 2-3.5 4.5-3.5s4.5 1.3 4.5 3.5" stroke-linecap="round"/></svg>
+        Criado por Suellen Warmling · Engrene
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════ QUIZ ══════════ -->
+  <div id="screen-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-header">
+        <div class="quiz-counter" id="q-counter">Pergunta 1 / 16</div>
+        <div class="quiz-pts" id="q-pts">0 pts</div>
+      </div>
+      <div class="question-area" id="question-area">
+        <!-- renderizado via JS -->
+      </div>
+      <div class="q-nav" id="q-nav">
+        <button class="btn-back" id="btn-back" onclick="voltarQuestao()" style="visibility:hidden">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 10H4M9 5l-5 5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Voltar
+        </button>
+        <button class="btn-next" id="btn-next" onclick="proximaQuestao()" disabled>
+          Próximo
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ LOADING ══════════ -->
+  <div id="screen-loading">
+    <div class="loading-wrap">
+      <div class="loading-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-ring-2"></div>
+        <div class="orb-dot"></div>
+      </div>
+      <div class="loading-title">Analisando seu perfil…</div>
+      <div class="loading-sub">Gerando diagnóstico personalizado com IA</div>
+      <div class="loading-steps">
+        <div class="lstep" id="ls1"><div class="lstep-dot"></div>Calculando pontuação estratégica</div>
+        <div class="lstep" id="ls2"><div class="lstep-dot"></div>Mapeando oportunidades do nicho</div>
+        <div class="lstep" id="ls3"><div class="lstep-dot"></div>Criando plano de ação personalizado</div>
+        <div class="lstep" id="ls4"><div class="lstep-dot"></div>Gerando campanhas e scripts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ RESULTADO ══════════ -->
+  <div id="screen-resultado">
+    <div class="resultado-wrap">
+
+      <div class="score-hero" id="score-hero">
+        <div class="score-label-top">Diagnóstico Engrene · Resultado</div>
+        <div class="score-display">
+          <div class="score-number" id="r-score">0</div>
+          <div class="score-denom">/10</div>
+        </div>
+        <div class="score-nivel" id="r-nivel-badge">Calculando…</div>
+        <div class="score-nicho" id="r-nicho-info"></div>
+      </div>
+
+      <div class="report-card" id="r-body">
+        <!-- streaming content aqui -->
+      </div>
+
+      <div class="cta-block">
+        <div class="cta-eyebrow">Próximo passo</div>
+        <h3 class="cta-title">Pronto para implementar a estratégia?</h3>
+        <p class="cta-desc">Junte-se ao método Engrene e transforme esses insights em resultados reais no seu negócio.</p>
+        <a href="https://pay.hotmart.com/B86161012H?off=vyhlgrnt&checkoutMode=10" class="cta-btn" target="_blank" rel="noopener">
+          Quero o método Engrene →
+        </a>
+      </div>
+
+      <div class="action-btns">
+        <button class="btn-outline green" id="btn-copiar" onclick="copiarAnalise()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="7" width="10" height="12" rx="2"/><path d="M3 13V4a1 1 0 011-1h9" stroke-linecap="round"/></svg>
+          Copiar análise completa
+        </button>
+        <button class="btn-outline" onclick="reiniciar()">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10a6 6 0 116 6" stroke-linecap="round"/><path d="M4 6v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Refazer quiz
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>Criado por <strong>Suellen Warmling</strong> · <strong>Engrene</strong></footer>
+
+</div><!-- /shell -->
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   DADOS DO QUIZ
+════════════════════════════════════════════════════════════ */
+const PERGUNTAS = [
+  // BLOCO 1 — ESTRATÉGIA (pontuação)
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Quando suas visualizações nos Stories caem, você:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Para de postar', pts:0 },
+      { letra:'B', texto:'Publica um único story no dia com CTA', pts:5 },
+      { letra:'C', texto:'Intensifica com rotina + interação', pts:2 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Em uma ação de vendas, o que NÃO pode faltar?',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Antecipação, escassez, urgência', pts:5 },
+      { letra:'B', texto:'Promoção e desconto', pts:0 },
+      { letra:'C', texto:'Live shop', pts:0 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Se você precisa vender rápido essa semana sem investir, você:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Cria conteúdo pra crescer seguidores', pts:0 },
+      { letra:'B', texto:'Faz prospecção', pts:2 },
+      { letra:'C', texto:'Aumenta ticket médio', pts:5 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Sobre tráfego pago para negócio local — por ex. restaurante por quilo — qual campanha seria ideal?',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Campanha de alcance', pts:5 },
+      { letra:'B', texto:'Campanha de mensagens (WhatsApp)', pts:0 },
+      { letra:'C', texto:'Campanha de conversão', pts:0 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Sobre "turbinar" posts pelo botão azul, o que é a maior verdade:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Funciona pra vender mais', pts:1 },
+      { letra:'B', texto:'Funciona pra crescer seguidores', pts:5 },
+      { letra:'C', texto:'Não funciona', pts:0 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'O jeito mais fácil de crescer seguidores é:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Modelando vídeos virais', pts:5 },
+      { letra:'B', texto:'Investindo em anúncios', pts:2 },
+      { letra:'C', texto:'Contratando influencers', pts:1 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Seu conteúdo hoje:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Muitas artes de acordo com o branding da marca', pts:0 },
+      { letra:'B', texto:'Feito 100% por social media ou agência', pts:0 },
+      { letra:'C', texto:'Tem reels toda semana e eu apareço', pts:5 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Seu atendimento no WhatsApp hoje tem:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Foco em agilidade', pts:1 },
+      { letra:'B', texto:'Padrão, perguntas e quebra de objeção', pts:5 },
+      { letra:'C', texto:'Olhar atento ao perfil comportamental do cliente', pts:4 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Você acompanha métricas?',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Não', pts:0 },
+      { letra:'B', texto:'Às vezes', pts:2 },
+      { letra:'C', texto:'Sempre uso para decidir', pts:5 },
+    ]
+  },
+  {
+    bloco: 'Bloco 1 — Estratégia',
+    texto: 'Sobre crescimento do negócio:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Depende do Instagram', pts:1 },
+      { letra:'B', texto:'Depende de várias tentativas', pts:2 },
+      { letra:'C', texto:'Depende de estratégia + ação', pts:5 },
+    ]
+  },
+  // BLOCO 2 — CONTEÚDO (pontuação)
+  {
+    bloco: 'Bloco 2 — Conteúdo',
+    texto: 'Qual gancho você usaria para um vídeo?',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'"Benefícios da Airfryer XYZ"', pts:1 },
+      { letra:'B', texto:'"Você sabia que Airfryer é mais saudável?"', pts:1 },
+      { letra:'C', texto:'"Coisas que eu colocaria na minha casa hoje"', pts:5 },
+    ]
+  },
+  {
+    bloco: 'Bloco 2 — Conteúdo',
+    texto: 'Frequência ideal de conteúdo:',
+    tipo: 'opcoes',
+    opcoes: [
+      { letra:'A', texto:'Uma vez na semana com capricho', pts:0 },
+      { letra:'B', texto:'Todo dia — qualidade se constrói com quantidade', pts:5 },
+      { letra:'C', texto:'Quando tiver algo relevante, não adianta postar por postar', pts:0 },
+    ]
+  },
+  // BLOCO 3 — CONTEXTO (não pontua)
+  {
+    bloco: 'Bloco 3 — Seu negócio',
+    texto: 'Qual é o seu nicho?',
+    tipo: 'select',
+    campo: 'nicho',
+    opcoes: [
+      'Salão de beleza / Estética','Manicure / Nail designer','Sobrancelha / Lash designer',
+      'Barbearia','Massagem / Fisioterapia','Confeitaria / Doces','Padaria / Café',
+      'Restaurante / Alimentação','Loja de roupas / Moda','Ótica / Joalheria / Acessórios',
+      'Papelaria / Presentes','Artesanato / Handmade','Floricultura / Decoração',
+      'Pet shop / Veterinário','Farmácia / Suplementos','Academia / Personal',
+      'Nutrição / Saúde','Médico / Dentista','Advogado / Contabilidade',
+      'Arquitetura / Design','Imobiliária / Corretor','Fotografia',
+      'Escola / Curso presencial','Marketing / Social media','Buffet / Eventos',
+      'Auto / Estética automotiva','Outro'
+    ]
+  },
+  {
+    bloco: 'Bloco 3 — Seu negócio',
+    texto: 'Faturamento mensal atual:',
+    tipo: 'opcoes-simples',
+    campo: 'faturamento',
+    opcoes: [
+      { letra:'A', texto:'Até R$5 mil' },
+      { letra:'B', texto:'R$5 mil a R$20 mil' },
+      { letra:'C', texto:'R$20 mil a R$100 mil' },
+      { letra:'D', texto:'Acima de R$100 mil' },
+    ]
+  },
+  {
+    bloco: 'Bloco 3 — Seu negócio',
+    texto: 'Você investe em tráfego pago?',
+    tipo: 'opcoes-simples',
+    campo: 'trafego',
+    opcoes: [
+      { letra:'A', texto:'Não' },
+      { letra:'B', texto:'Já testei' },
+      { letra:'C', texto:'Sim, com frequência' },
+    ]
+  },
+  {
+    bloco: 'Bloco 3 — Seu negócio',
+    texto: 'Seu principal canal de vendas hoje:',
+    tipo: 'opcoes-simples',
+    campo: 'canal',
+    opcoes: [
+      { letra:'A', texto:'Instagram' },
+      { letra:'B', texto:'WhatsApp' },
+      { letra:'C', texto:'Loja física' },
+      { letra:'D', texto:'Site' },
+    ]
+  },
+];
+
+/* ════════════════════════════════════════════════════════════
+   ESTADO
+════════════════════════════════════════════════════════════ */
+let atual = 0;
+let pontuacao = 0;
+let respostas = {};
+let contexto = { nicho:'', faturamento:'', trafego:'', canal:'' };
+let analiseTexto = '';
+
+/* ════════════════════════════════════════════════════════════
+   FUNÇÕES PRINCIPAIS
+════════════════════════════════════════════════════════════ */
+function iniciarQuiz() {
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  renderQuestao();
+}
+
+function renderQuestao() {
+  const q = PERGUNTAS[atual];
+  const area = document.getElementById('question-area');
+  const total = PERGUNTAS.length;
+
+  // Progresso
+  document.getElementById('progress-fill').style.width = `${(atual/total)*100}%`;
+  document.getElementById('q-counter').textContent = `Pergunta ${atual+1} / ${total}`;
+  document.getElementById('q-pts').textContent = `${pontuacao} pts`;
+
+  // Botão voltar
+  document.getElementById('btn-back').style.visibility = atual > 0 ? 'visible' : 'hidden';
+  document.getElementById('btn-next').disabled = true;
+
+  // Label do botão na última
+  const btnNext = document.getElementById('btn-next');
+  btnNext.innerHTML = atual === total - 1
+    ? 'Ver resultado <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l7 7-7 7M3 10h14" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    : 'Próximo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // Render
+  let html = `
+    <div class="q-ghost-num">${String(atual+1).padStart(2,'0')}</div>
+    <div class="q-block-tag">${q.bloco}</div>
+    <div class="q-text">${q.texto}</div>
+  `;
+
+  if (q.tipo === 'opcoes' || q.tipo === 'opcoes-simples') {
+    html += '<div class="q-options">';
+    q.opcoes.forEach(op => {
+      const sel = respostas[atual] === op.letra ? 'selected' : '';
+      html += `
+        <div class="q-opt ${sel}" onclick="selecionarOpcao(this, '${op.letra}')">
+          <div class="q-opt-letter">${op.letra}</div>
+          <div class="q-opt-text">${op.texto}</div>
+        </div>`;
+    });
+    html += '</div>';
+    if (respostas[atual]) document.getElementById('btn-next').disabled = false;
+  } else if (q.tipo === 'select') {
+    const val = contexto[q.campo] || '';
+    html += `
+      <div class="q-options">
+        <select class="q-input" id="q-select" onchange="selecionarSelect(this)">
+          <option value="">Selecione seu nicho…</option>
+          ${q.opcoes.map(o => `<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}
+        </select>
+      </div>`;
+    if (val) document.getElementById('btn-next').disabled = false;
+    setTimeout(() => {
+      const sel = document.getElementById('q-select');
+      if (sel) sel.addEventListener('change', () => {
+        document.getElementById('btn-next').disabled = !sel.value;
+      });
+    }, 50);
+  }
+
+  area.innerHTML = html;
+  area.style.animation = 'none';
+  requestAnimationFrame(() => { area.style.animation = ''; });
+}
+
+function selecionarOpcao(el, letra) {
+  document.querySelectorAll('.q-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  respostas[atual] = letra;
+
+  const q = PERGUNTAS[atual];
+  if ((q.tipo === 'opcoes' || q.tipo === 'opcoes-simples') && q.campo) {
+    const op = q.opcoes.find(o => o.letra === letra);
+    if (op) contexto[q.campo] = op.texto;
+  }
+  document.getElementById('btn-next').disabled = false;
+}
+
+function selecionarSelect(el) {
+  const q = PERGUNTAS[atual];
+  if (q.campo) contexto[q.campo] = el.value;
+  document.getElementById('btn-next').disabled = !el.value;
+}
+
+function proximaQuestao() {
+  const q = PERGUNTAS[atual];
+
+  // Validação select
+  if (q.tipo === 'select') {
+    const sel = document.getElementById('q-select');
+    if (!sel || !sel.value) return;
+    contexto[q.campo] = sel.value;
+  }
+
+  // Pontuar
+  if (q.tipo === 'opcoes' && respostas[atual]) {
+    const op = q.opcoes.find(o => o.letra === respostas[atual]);
+    if (op) pontuacao += op.pts;
+  }
+
+  if (atual < PERGUNTAS.length - 1) {
+    atual++;
+    renderQuestao();
+  } else {
+    gerarResultado();
+  }
+}
+
+function voltarQuestao() {
+  if (atual === 0) return;
+  // Desfaz pontuação da questão atual se pontuada
+  const q = PERGUNTAS[atual];
+  if (q.tipo === 'opcoes' && respostas[atual]) {
+    const op = q.opcoes.find(o => o.letra === respostas[atual]);
+    if (op) pontuacao -= op.pts;
+  }
+  atual--;
+  renderQuestao();
+}
+
+/* ════════════════════════════════════════════════════════════
+   GERAR RESULTADO
+════════════════════════════════════════════════════════════ */
+async function gerarResultado() {
+  // Score /10 com teto 8.9
+  const maxRaw = 60;
+  const scoreDez = Math.min(8.9, parseFloat((pontuacao / maxRaw * 10).toFixed(1)));
+
+  // Nível
+  let nivel, nivelClass;
+  if (pontuacao <= 20) {
+    nivel = '❌ Empreendedor Amador';
+    nivelClass = 'baixo';
+  } else if (pontuacao <= 40) {
+    nivel = '⚠️ Empreendedor em Processo';
+    nivelClass = 'medio';
+  } else {
+    nivel = '✅ Empreendedor Estrategista';
+    nivelClass = 'alto';
+  }
+
+  // Mostrar loading
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-loading').style.display = 'block';
+  window.scrollTo({ top:0, behavior:'smooth' });
+
+  // Animar loading steps
+  const steps = ['ls1','ls2','ls3','ls4'];
+  let si = 0;
+  const stepInt = setInterval(() => {
+    if (si > 0) document.getElementById(steps[si-1]).classList.replace('ativo','done');
+    if (si < steps.length) {
+      document.getElementById(steps[si]).classList.add('ativo');
+      si++;
+    } else {
+      clearInterval(stepInt);
+    }
+  }, 1800);
+
+  // Montar respostas descritivas
+  const respostasDetalhadas = {};
+  PERGUNTAS.forEach((q, i) => {
+    if (q.tipo === 'opcoes' || q.tipo === 'opcoes-simples') {
+      if (respostas[i]) {
+        const op = q.opcoes.find(o => o.letra === respostas[i]);
+        if (op) respostasDetalhadas[`P${i+1}`] = `[${respostas[i]}] ${op.texto}`;
+      }
+    }
+  });
+
+  // Chamar API
+  try {
+    const resp = await fetch('/api/resultado', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pontuacao,
+        nivel,
+        nicho: contexto.nicho || 'Não informado',
+        faturamento: contexto.faturamento || 'Não informado',
+        trafego: contexto.trafego || 'Não informado',
+        canal: contexto.canal || 'Não informado',
+        respostas: respostasDetalhadas
+      })
+    });
+
+    clearInterval(stepInt);
+    steps.forEach(s => {
+      document.getElementById(s).classList.remove('ativo');
+      document.getElementById(s).classList.add('done');
+    });
+
+    // Mostrar resultado
+    document.getElementById('screen-loading').style.display = 'none';
+    document.getElementById('screen-resultado').style.display = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+
+    // Score com animação
+    const scoreEl = document.getElementById('r-score');
+    animarNumero(scoreEl, 0, scoreDez, 1200);
+
+    const nivelBadge = document.getElementById('r-nivel-badge');
+    nivelBadge.textContent = nivel;
+    nivelBadge.className = `score-nivel ${nivelClass}`;
+
+    document.getElementById('r-nicho-info').textContent =
+      contexto.nicho ? `Nicho: ${contexto.nicho} · ${contexto.faturamento}` : '';
+
+    // Streaming do texto
+    const bodyEl = document.getElementById('r-body');
+    bodyEl.innerHTML = '';
+    analiseTexto = '';
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6);
+        if (raw === '[DONE]') break;
+        try {
+          const d = JSON.parse(raw);
+          if (d.text) {
+            analiseTexto += d.text;
+            bodyEl.innerHTML = markdownParaHTML(analiseTexto);
+          }
+        } catch(_) {}
+      }
+    }
+    bodyEl.innerHTML = markdownParaHTML(analiseTexto);
+
+  } catch (err) {
+    clearInterval(stepInt);
+    document.getElementById('screen-loading').style.display = 'none';
+    document.getElementById('screen-resultado').style.display = 'block';
+    document.getElementById('r-body').innerHTML = '<p style="color:var(--muted)">Erro ao gerar análise. Tente novamente.</p>';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   UTILITÁRIOS
+════════════════════════════════════════════════════════════ */
+function animarNumero(el, inicio, fim, duracao) {
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duracao, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = (inicio + (fim - inicio) * ease).toFixed(1);
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = fim.toFixed(1);
+  }
+  requestAnimationFrame(tick);
+}
+
+function markdownParaHTML(md) {
+  return md
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--orange);font-weight:600;">$1</a>')
+    .replace(/\n{2,}/g, '</p><p>')
+    .replace(/^(?!<[hul])/gm, '')
+    .replace(/<p><\/p>/g, '')
+    .replace(/^(.+)$/gm, (m) => m.startsWith('<') ? m : `<p>${m}</p>`);
+}
+
+function copiarAnalise() {
+  const texto = document.getElementById('r-body').innerText;
+  navigator.clipboard.writeText(texto).then(() => {
+    const btn = document.getElementById('btn-copiar');
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => {
+      btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="7" width="10" height="12" rx="2"/><path d="M3 13V4a1 1 0 011-1h9" stroke-linecap="round"/></svg> Copiar análise completa';
+    }, 2000);
+  });
+}
+
+function reiniciar() {
+  atual = 0; pontuacao = 0; respostas = {}; analiseTexto = '';
+  contexto = { nicho:'', faturamento:'', trafego:'', canal:'' };
+  document.getElementById('screen-resultado').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'flex';
+  document.getElementById('progress-fill').style.width = '0%';
+  window.scrollTo({ top:0 });
+}
+</script>
+</body>
+</html>
