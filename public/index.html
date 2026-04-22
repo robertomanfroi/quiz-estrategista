@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── TOKENS ─────────────────────────────────────────────── */
     :root {
       --bg:       #0C0B0A;
       --bg2:      #111010;
@@ -25,13 +24,10 @@
       --subtle:   rgba(242,238,233,0.26);
       --r:        14px;
       --ease:     cubic-bezier(0.16,1,0.3,1);
-
       --font-display: 'Instrument Serif', Georgia, serif;
       --font-body:    'Outfit', system-ui, sans-serif;
       --font-mono:    'DM Mono', monospace;
     }
-
-    /* ── RESET ──────────────────────────────────────────────── */
     *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
     html { scroll-behavior:smooth; }
     body {
@@ -42,8 +38,6 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
-    /* ── GRAIN ──────────────────────────────────────────────── */
     body::after {
       content:'';
       position:fixed; inset:0; z-index:0;
@@ -52,278 +46,140 @@
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size:160px 160px;
     }
-
-    /* ── PROGRESS BAR ───────────────────────────────────────── */
     .progress-bar {
-      position: fixed; top:0; left:0; right:0; z-index:100;
-      height: 2px;
-      background: rgba(255,255,255,0.06);
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      height:2px; background:rgba(255,255,255,0.06);
     }
     .progress-fill {
       height:100%;
-      background: linear-gradient(90deg, var(--orange), #ff7b35);
-      transition: width 400ms var(--ease);
-      box-shadow: 0 0 12px var(--orange-g);
+      background:linear-gradient(90deg, var(--orange), #ff7b35);
+      transition:width 400ms var(--ease);
+      box-shadow:0 0 12px var(--orange-g);
     }
-
-    /* ── SHELL ──────────────────────────────────────────────── */
-    .shell {
-      position:relative; z-index:1;
-      min-height:100dvh;
-      display:flex; flex-direction:column;
-    }
-
-    /* ── DECORATIVE GRID LINES ──────────────────────────────── */
+    .shell { position:relative; z-index:1; min-height:100dvh; display:flex; flex-direction:column; }
     .grid-lines {
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-      overflow:hidden; opacity:0.04;
+      position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; opacity:0.04;
     }
     .grid-lines::before {
-      content:'';
-      position:absolute; inset:0;
-      background-image:
-        linear-gradient(rgba(252,76,4,0.6) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(252,76,4,0.6) 1px, transparent 1px);
-      background-size: 80px 80px;
+      content:''; position:absolute; inset:0;
+      background-image: linear-gradient(rgba(252,76,4,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(252,76,4,0.6) 1px, transparent 1px);
+      background-size:80px 80px;
     }
     .grid-lines::after {
-      content:'';
-      position:absolute; inset:0;
-      background: radial-gradient(ellipse 60% 80% at 50% 50%, transparent 40%, var(--bg) 100%);
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 60% 80% at 50% 50%, transparent 40%, var(--bg) 100%);
     }
 
-    /* ══════════════════════════════════════════════════════════
-       TELA: INTRO
-    ══════════════════════════════════════════════════════════ */
-    #screen-intro {
-      display:flex; flex-direction:column;
-      min-height:100dvh;
-    }
+    /* ══ INTRO ══ */
+    #screen-intro { display:flex; flex-direction:column; min-height:100dvh; }
     .intro-wrap {
-      flex:1;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding: 60px 24px 48px;
-      text-align:center;
-      max-width: 640px;
-      margin: 0 auto; width:100%;
+      flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:60px 24px 48px; text-align:center; max-width:640px; margin:0 auto; width:100%;
     }
     .intro-label {
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight:500;
-      letter-spacing: 0.16em; text-transform:uppercase;
-      color: var(--orange);
-      margin-bottom: 24px;
-      display:flex; align-items:center; gap:10px;
+      font-family:var(--font-mono); font-size:11px; font-weight:500;
+      letter-spacing:0.16em; text-transform:uppercase; color:var(--orange);
+      margin-bottom:24px; display:flex; align-items:center; gap:10px;
     }
-    .intro-label::before, .intro-label::after {
-      content:''; flex:1; height:1px;
-      background: linear-gradient(90deg, transparent, rgba(252,76,4,0.4));
-    }
-    .intro-label::after {
-      background: linear-gradient(90deg, rgba(252,76,4,0.4), transparent);
-    }
+    .intro-label::before,.intro-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, transparent, rgba(252,76,4,0.4)); }
+    .intro-label::after { background:linear-gradient(90deg, rgba(252,76,4,0.4), transparent); }
     .intro-title {
-      font-family: var(--font-display);
-      font-size: clamp(38px, 8vw, 72px);
-      line-height: 1.06;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      margin-bottom: 8px;
+      font-family:var(--font-display); font-size:clamp(38px,8vw,72px);
+      line-height:1.06; letter-spacing:-0.01em; color:var(--white); margin-bottom:8px;
     }
-    .intro-title em {
-      font-style: italic;
-      color: var(--orange);
-    }
+    .intro-title em { font-style:italic; color:var(--orange); }
     .intro-sub {
-      font-size: clamp(15px,3vw,17px);
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--muted);
-      max-width: 480px;
-      margin: 20px auto 40px;
+      font-size:clamp(15px,3vw,17px); font-weight:400; line-height:1.7;
+      color:var(--muted); max-width:480px; margin:20px auto 40px;
     }
-    .intro-pills {
-      display:flex; flex-wrap:wrap; justify-content:center; gap:8px;
-      margin-bottom: 48px;
-    }
+    .intro-pills { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:48px; }
     .intro-pill {
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight:500;
-      letter-spacing: 0.04em;
-      padding: 6px 14px;
-      border: 1px solid var(--border2);
-      border-radius: 100px;
-      color: var(--subtle);
+      font-family:var(--font-mono); font-size:11px; font-weight:500;
+      letter-spacing:0.04em; padding:6px 14px; border:1px solid var(--border2);
+      border-radius:100px; color:var(--subtle);
     }
     .btn-start {
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 18px 48px;
-      background: var(--orange);
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 15px; font-weight:700;
-      border: none; border-radius: var(--r);
-      cursor:pointer;
-      box-shadow: 0 0 48px var(--orange-g), 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14);
-      transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
-      touch-action:manipulation;
-      position:relative; overflow:hidden;
+      display:inline-flex; align-items:center; gap:10px; padding:18px 48px;
+      background:var(--orange); color:#fff; font-family:var(--font-body);
+      font-size:15px; font-weight:700; border:none; border-radius:var(--r);
+      cursor:pointer; box-shadow:0 0 48px var(--orange-g), 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14);
+      transition:transform 220ms var(--ease), box-shadow 220ms var(--ease);
+      touch-action:manipulation; position:relative; overflow:hidden;
     }
-    .btn-start::before {
-      content:'';
-      position:absolute; inset:0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 55%);
-    }
+    .btn-start::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 55%); }
     .btn-start:hover { transform:translateY(-3px); box-shadow:0 0 64px rgba(252,76,4,0.45), 0 10px 32px rgba(0,0,0,0.5); }
     .btn-start:active { transform:scale(0.97); }
     .btn-start svg { width:18px; height:18px; transition:transform 220ms var(--ease); }
     .btn-start:hover svg { transform:translateX(4px); }
-
-    .intro-disclaimer {
-      margin-top: 28px;
-      font-size: 12px; color: var(--subtle);
-      display:flex; align-items:center; gap:8px; justify-content:center;
-    }
+    .intro-disclaimer { margin-top:28px; font-size:12px; color:var(--subtle); display:flex; align-items:center; gap:8px; justify-content:center; }
     .intro-disclaimer svg { width:14px; height:14px; color:var(--orange); flex-shrink:0; }
 
-    /* ══════════════════════════════════════════════════════════
-       TELA: QUIZ
-    ══════════════════════════════════════════════════════════ */
+    /* ══ QUIZ ══ */
     #screen-quiz { display:none; }
-    .quiz-wrap {
-      min-height:100dvh;
-      display:flex; flex-direction:column;
-      padding: 24px;
-    }
+    .quiz-wrap { min-height:100dvh; display:flex; flex-direction:column; padding:24px; }
     .quiz-header {
       display:flex; align-items:center; justify-content:space-between;
-      margin-bottom: 40px;
-      padding-top: 12px;
+      margin-bottom:40px; padding-top:12px;
     }
-    .quiz-counter {
-      font-family: var(--font-mono);
-      font-size: 12px; font-weight:500;
-      letter-spacing: 0.08em;
-      color: var(--orange);
-    }
-    .quiz-pts {
-      font-family: var(--font-mono);
-      font-size: 11px; color: var(--subtle);
-    }
-
-    /* Question card */
+    .quiz-counter { font-family:var(--font-mono); font-size:12px; font-weight:500; letter-spacing:0.08em; color:var(--orange); }
+    .quiz-pts { font-family:var(--font-mono); font-size:11px; color:var(--subtle); }
     .question-area {
-      flex:1;
-      display:flex; flex-direction:column; justify-content:center;
-      max-width: 620px;
-      margin: 0 auto; width:100%;
-      position:relative;
+      flex:1; display:flex; flex-direction:column; justify-content:center;
+      max-width:620px; margin:0 auto; width:100%; position:relative;
+      animation:slideIn 350ms var(--ease);
     }
+    @keyframes slideIn { from { opacity:0; transform:translateX(30px) scale(0.99); } to { opacity:1; transform:translateX(0) scale(1); } }
+    .slide-out { animation:slideOut 200ms var(--ease) forwards; }
+    @keyframes slideOut { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(-30px); } }
     .q-ghost-num {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(120px, 28vw, 200px);
-      line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(252,76,4,0.10);
-      position: absolute;
-      top: -20px; right: -10px;
-      pointer-events:none;
-      user-select:none;
-      z-index:0;
-      transition: opacity 300ms;
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(120px,28vw,200px); line-height:1; color:transparent;
+      -webkit-text-stroke:1px rgba(252,76,4,0.10);
+      position:absolute; top:-20px; right:-10px;
+      pointer-events:none; user-select:none; z-index:0; transition:opacity 300ms;
     }
     .q-block-tag {
-      font-family: var(--font-mono);
-      font-size: 10px; font-weight:500;
-      letter-spacing: 0.14em; text-transform:uppercase;
-      color: var(--orange);
-      opacity:0.8;
-      margin-bottom: 14px;
-      position:relative; z-index:1;
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--orange);
+      opacity:0.8; margin-bottom:14px; position:relative; z-index:1;
     }
     .q-text {
-      font-family: var(--font-display);
-      font-size: clamp(22px, 5vw, 32px);
-      line-height: 1.3;
-      color: var(--white);
-      margin-bottom: 32px;
-      position:relative; z-index:1;
-      max-width: 500px;
+      font-family:var(--font-display); font-size:clamp(22px,5vw,32px);
+      line-height:1.3; color:var(--white); margin-bottom:32px;
+      position:relative; z-index:1; max-width:500px;
     }
-    .q-options {
-      display: flex; flex-direction:column; gap:10px;
-      position:relative; z-index:1;
-    }
+    .q-options { display:flex; flex-direction:column; gap:10px; position:relative; z-index:1; }
     .q-opt {
-      display:flex; align-items:flex-start; gap:14px;
-      padding: 16px 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--r);
-      cursor:pointer;
-      transition: all 200ms var(--ease);
-      touch-action:manipulation;
-      position:relative; overflow:hidden;
+      display:flex; align-items:flex-start; gap:14px; padding:16px 20px;
+      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+      border-radius:var(--r); cursor:pointer; transition:all 200ms var(--ease);
+      touch-action:manipulation; position:relative; overflow:hidden;
     }
-    .q-opt::before {
-      content:'';
-      position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(252,76,4,0.07) 0%, transparent 60%);
-      opacity:0; transition:opacity 200ms;
-    }
+    .q-opt::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(252,76,4,0.07) 0%, transparent 60%); opacity:0; transition:opacity 200ms; }
     .q-opt:hover { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.14); }
     .q-opt:hover::before { opacity:1; }
-    .q-opt.selected {
-      background: rgba(252,76,4,0.09);
-      border-color: rgba(252,76,4,0.40);
-      box-shadow: 0 0 20px rgba(252,76,4,0.08);
-    }
+    .q-opt.selected { background:rgba(252,76,4,0.09); border-color:rgba(252,76,4,0.40); box-shadow:0 0 20px rgba(252,76,4,0.08); }
     .q-opt.selected::before { opacity:1; }
     .q-opt-letter {
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight:500;
-      letter-spacing:0.06em;
-      width: 26px; height: 26px; flex-shrink:0;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      display:grid; place-items:center;
-      color: var(--muted);
-      transition: all 200ms;
-      margin-top: 1px;
+      font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:0.06em;
+      width:26px; height:26px; flex-shrink:0; border-radius:6px;
+      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10);
+      display:grid; place-items:center; color:var(--muted); transition:all 200ms; margin-top:1px;
     }
-    .q-opt.selected .q-opt-letter {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: #fff;
-      box-shadow: 0 0 12px var(--orange-g);
-    }
-    .q-opt-text {
-      font-size: 14px; font-weight:500;
-      color: var(--white); line-height:1.5;
-      flex:1;
-    }
-
-    /* Navigation buttons */
+    .q-opt.selected .q-opt-letter { background:var(--orange); border-color:var(--orange); color:#fff; box-shadow:0 0 12px var(--orange-g); }
+    .q-opt-text { font-size:14px; font-weight:500; color:var(--white); line-height:1.5; flex:1; }
     .q-nav {
       display:flex; align-items:center; justify-content:space-between;
-      margin-top: 36px;
-      max-width: 620px;
-      margin-left:auto; margin-right:auto; width:100%;
-      padding-bottom: 24px;
+      margin-top:36px; max-width:620px; margin-left:auto; margin-right:auto;
+      width:100%; padding-bottom:24px;
     }
     .btn-next {
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 13px 28px;
-      background: linear-gradient(135deg, var(--orange), #e63d00);
-      color:#fff;
-      font-family: var(--font-body);
-      font-size: 14px; font-weight:700;
-      border:none; border-radius:var(--r);
-      cursor:pointer;
-      box-shadow: 0 0 28px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
-      transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), opacity 200ms;
+      display:inline-flex; align-items:center; gap:8px; padding:13px 28px;
+      background:linear-gradient(135deg, var(--orange), #e63d00); color:#fff;
+      font-family:var(--font-body); font-size:14px; font-weight:700;
+      border:none; border-radius:var(--r); cursor:pointer;
+      box-shadow:0 0 28px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
+      transition:transform 200ms var(--ease), box-shadow 200ms, opacity 200ms;
       touch-action:manipulation;
     }
     .btn-next:hover { transform:translateY(-2px); box-shadow:0 0 44px rgba(252,76,4,0.45), inset 0 1px 0 rgba(255,255,255,0.18); }
@@ -332,316 +188,197 @@
     .btn-next svg { width:15px; height:15px; transition:transform 200ms var(--ease); }
     .btn-next:hover svg { transform:translateX(3px); }
     .btn-back {
-      display:inline-flex; align-items:center; gap:6px;
-      padding: 13px 18px;
-      background: transparent;
-      color: var(--muted);
-      font-family: var(--font-body);
-      font-size: 13px; font-weight:500;
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius:var(--r);
-      cursor:pointer;
-      transition: all 200ms var(--ease);
+      display:inline-flex; align-items:center; gap:6px; padding:13px 18px;
+      background:transparent; color:var(--muted); font-family:var(--font-body);
+      font-size:13px; font-weight:500; border:1px solid rgba(255,255,255,0.09);
+      border-radius:var(--r); cursor:pointer; transition:all 200ms var(--ease);
     }
     .btn-back:hover { background:rgba(255,255,255,0.06); color:var(--white); }
     .btn-back svg { width:14px; height:14px; }
-
-    /* Slide animation */
-    .question-area { animation: slideIn 350ms var(--ease); }
-    @keyframes slideIn {
-      from { opacity:0; transform:translateX(30px) scale(0.99); }
-      to   { opacity:1; transform:translateX(0) scale(1); }
-    }
-    .slide-out { animation: slideOut 200ms var(--ease) forwards; }
-    @keyframes slideOut {
-      from { opacity:1; transform:translateX(0); }
-      to   { opacity:0; transform:translateX(-30px); }
-    }
-
-    /* Open text / select */
     .q-input {
-      width:100%; padding:14px 18px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius:var(--r);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size:15px;
-      transition: border-color 200ms, box-shadow 200ms;
-      -webkit-appearance:none;
+      width:100%; padding:14px 18px; background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.09); border-radius:var(--r);
+      color:var(--white); font-family:var(--font-body); font-size:15px;
+      transition:border-color 200ms, box-shadow 200ms; -webkit-appearance:none;
     }
-    .q-input::placeholder { color: var(--subtle); }
-    .q-input:focus {
-      outline:none;
-      border-color: rgba(252,76,4,0.5);
-      box-shadow: 0 0 0 3px rgba(252,76,4,0.10);
-    }
+    .q-input::placeholder { color:var(--subtle); }
+    .q-input:focus { outline:none; border-color:rgba(252,76,4,0.5); box-shadow:0 0 0 3px rgba(252,76,4,0.10); }
     select.q-input { cursor:pointer; }
     select.q-input option { background:#1a1917; color:#fff; }
 
-    /* ══════════════════════════════════════════════════════════
-       TELA: LOADING
-    ══════════════════════════════════════════════════════════ */
-    #screen-loading { display:none; }
-    .loading-wrap {
-      min-height:100dvh;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:40px 24px; text-align:center;
-    }
-    .loading-orb {
-      position:relative;
-      width:100px; height:100px;
-      margin-bottom:40px;
-    }
-    .orb-ring {
-      position:absolute; inset:0;
-      border-radius:50%;
-      border: 1.5px solid rgba(255,255,255,0.05);
-      border-top-color: var(--orange);
-      animation: spin 1s linear infinite;
-    }
-    .orb-ring-2 {
-      position:absolute; inset:12px;
-      border-radius:50%;
-      border: 1px solid rgba(255,255,255,0.03);
-      border-top-color: rgba(252,76,4,0.4);
-      animation: spin 1.8s linear infinite reverse;
-    }
-    .orb-dot {
-      position:absolute; inset:0;
-      display:grid; place-items:center;
-    }
-    .orb-dot::after {
-      content:'';
-      width:14px; height:14px;
-      background:var(--orange);
-      border-radius:50%;
-      box-shadow:0 0 24px var(--orange-g);
-      animation: breathe 1.5s ease infinite;
-    }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    @keyframes breathe {
-      0%,100% { transform:scale(1); opacity:1; }
-      50% { transform:scale(0.8); opacity:0.6; }
-    }
-    .loading-title {
-      font-family: var(--font-display);
-      font-size: 26px;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-    .loading-sub { font-size:14px; color:var(--muted); margin-bottom:32px; }
-    .loading-steps {
-      display:flex; flex-direction:column; gap:8px;
-      width:100%; max-width:340px; text-align:left;
-    }
-    .lstep {
-      display:flex; align-items:center; gap:12px;
-      padding:11px 15px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.07);
-      border-radius:10px;
-      font-size:13px; color:var(--subtle);
-      transition:all 300ms var(--ease);
-    }
-    .lstep.ativo {
-      background:rgba(252,76,4,0.07);
-      border-color:rgba(252,76,4,0.22);
-      color:var(--white);
-    }
-    .lstep.done { border-color:rgba(252,76,4,0.18); color:var(--muted); }
-    .lstep-dot {
-      width:7px; height:7px; flex-shrink:0;
-      border-radius:50%; background:rgba(255,255,255,0.2);
-      transition:all 300ms;
-    }
-    .lstep.ativo .lstep-dot {
-      background:var(--orange);
-      box-shadow:0 0 8px var(--orange-g);
-      animation:breathe 1.2s ease infinite;
-    }
-    .lstep.done .lstep-dot { background:rgba(252,76,4,0.5); }
-
-    /* ══════════════════════════════════════════════════════════
-       TELA: RESULTADO
-    ══════════════════════════════════════════════════════════ */
+    /* ══ RESULTADO ══ */
     #screen-resultado { display:none; }
-    .resultado-wrap {
-      max-width:760px;
-      margin:0 auto;
-      padding:40px 20px 80px;
-    }
+    .resultado-wrap { max-width:760px; margin:0 auto; padding:40px 20px 80px; }
 
-    /* Score hero */
     .score-hero {
-      position:relative;
-      padding:48px 36px;
-      border-radius:20px;
-      background: linear-gradient(135deg, rgba(252,76,4,0.10) 0%, rgba(252,76,4,0.03) 60%, transparent 100%);
-      border: 1px solid rgba(252,76,4,0.18);
-      margin-bottom:32px;
-      overflow:hidden;
+      position:relative; padding:48px 36px; border-radius:20px;
+      background:linear-gradient(135deg, rgba(252,76,4,0.10) 0%, rgba(252,76,4,0.03) 60%, transparent 100%);
+      border:1px solid rgba(252,76,4,0.18); margin-bottom:28px; overflow:hidden;
     }
     .score-hero::before {
-      content:'';
-      position:absolute; top:-60px; right:-60px;
+      content:''; position:absolute; top:-60px; right:-60px;
       width:240px; height:240px;
       background:radial-gradient(circle, rgba(252,76,4,0.14) 0%, transparent 70%);
       border-radius:50%; pointer-events:none;
     }
     .score-label-top {
-      font-family: var(--font-mono);
-      font-size:10px; font-weight:500;
-      letter-spacing:0.14em; text-transform:uppercase;
-      color:var(--orange); margin-bottom:16px;
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--orange); margin-bottom:16px;
     }
-    .score-display {
-      display:flex; align-items:flex-end; gap:16px;
-      margin-bottom:12px;
-    }
+    .score-display { display:flex; align-items:flex-end; gap:16px; margin-bottom:12px; }
     .score-number {
-      font-family: var(--font-display);
-      font-style:italic;
-      font-size: clamp(64px, 14vw, 96px);
-      line-height:1;
-      color:var(--white);
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(64px,14vw,96px); line-height:1; color:var(--white);
     }
-    .score-denom {
-      font-family: var(--font-display);
-      font-size:28px; color:rgba(242,238,233,0.3);
-      margin-bottom:12px;
-    }
+    .score-denom { font-family:var(--font-display); font-size:28px; color:rgba(242,238,233,0.3); margin-bottom:12px; }
     .score-nivel {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:7px 16px;
-      border-radius:100px;
-      font-family: var(--font-mono);
-      font-size:11px; font-weight:500;
-      letter-spacing:0.06em;
-      background:rgba(252,76,4,0.14);
-      border:1px solid rgba(252,76,4,0.30);
-      color:var(--orange);
-      margin-bottom:6px;
+      display:inline-flex; align-items:center; gap:8px; padding:7px 16px;
+      border-radius:100px; font-family:var(--font-mono); font-size:11px; font-weight:500;
+      letter-spacing:0.06em; background:rgba(252,76,4,0.14); border:1px solid rgba(252,76,4,0.30);
+      color:var(--orange); margin-bottom:6px;
     }
     .score-nivel.medio { background:rgba(232,184,109,0.10); border-color:rgba(232,184,109,0.30); color:var(--gold); }
     .score-nivel.alto { background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.25); color:#4ade80; }
-    .score-nicho {
-      font-size:13px; color:var(--subtle); margin-top:10px;
-    }
+    .score-nicho { font-size:13px; color:var(--subtle); margin-top:10px; }
 
-    /* Report */
-    .report-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius:20px;
-      padding:36px 32px;
-      backdrop-filter:blur(20px);
-      -webkit-backdrop-filter:blur(20px);
-      line-height:1.7;
-      font-size:15px;
-      color:rgba(242,238,233,0.88);
-      margin-bottom:24px;
+    /* Diagnostic card */
+    .diag-card {
+      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+      border-radius:20px; padding:32px 28px; margin-bottom:20px;
     }
-    @media(max-width:480px){ .report-card { padding:24px 18px; } }
-    .report-card h2 {
-      font-family: var(--font-display);
-      font-size:20px; font-weight:400;
-      color:var(--white);
-      margin:32px 0 12px;
-      padding-bottom:10px;
-      border-bottom:1px solid rgba(255,255,255,0.07);
+    .diag-card-title {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--orange);
+      margin-bottom:14px; display:flex; align-items:center; gap:10px;
     }
-    .report-card h2:first-child { margin-top:0; }
-    .report-card h3 {
-      font-size:15px; font-weight:700;
-      color:var(--gold);
-      margin:20px 0 8px;
+    .diag-card-title::after { content:''; flex:1; height:1px; background:rgba(252,76,4,0.2); }
+    .diag-text { font-size:15px; line-height:1.75; color:rgba(242,238,233,0.85); }
+    .diag-text strong { color:var(--white); }
+
+    /* Opportunities */
+    .opp-list { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .opp-item {
+      display:flex; align-items:flex-start; gap:14px;
+      padding:14px 16px; border-radius:12px;
+      background:rgba(252,76,4,0.05); border:1px solid rgba(252,76,4,0.14);
     }
-    .report-card strong { color:var(--white); font-weight:700; }
-    .report-card em { color:var(--orange); font-style:normal; font-weight:500; }
-    .report-card ul, .report-card ol { padding-left:20px; margin:10px 0; }
-    .report-card li { margin-bottom:6px; }
-    .report-card blockquote {
-      border-left:3px solid var(--orange);
-      padding:12px 18px;
-      margin:16px 0;
-      background:rgba(252,76,4,0.07);
-      border-radius:0 10px 10px 0;
-      font-style:italic; color:rgba(242,238,233,0.85);
+    .opp-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+    .opp-body { flex:1; }
+    .opp-title { font-size:14px; font-weight:700; color:var(--white); margin-bottom:3px; }
+    .opp-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+
+    /* Actions */
+    .action-list { display:flex; flex-direction:column; gap:10px; margin-top:16px; counter-reset:ac; }
+    .action-item {
+      display:flex; align-items:flex-start; gap:14px;
+      padding:14px 16px; border-radius:12px;
+      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+      counter-increment:ac;
     }
+    .action-num {
+      font-family:var(--font-mono); font-size:11px; font-weight:500;
+      color:var(--orange); width:24px; height:24px; flex-shrink:0;
+      border:1px solid rgba(252,76,4,0.3); border-radius:6px;
+      display:grid; place-items:center; margin-top:1px;
+    }
+    .action-body { flex:1; }
+    .action-title { font-size:14px; font-weight:700; color:var(--white); margin-bottom:3px; }
+    .action-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+    .action-impact { font-family:var(--font-mono); font-size:11px; color:var(--orange); margin-top:5px; }
 
     /* CTA */
     .cta-block {
-      margin-bottom:24px;
-      border-radius:20px;
-      background: linear-gradient(135deg, rgba(252,76,4,0.10) 0%, rgba(252,76,4,0.03) 100%);
-      border: 1px solid rgba(252,76,4,0.22);
-      padding:32px 28px;
+      margin-bottom:24px; border-radius:20px;
+      background:linear-gradient(135deg, rgba(252,76,4,0.12) 0%, rgba(252,76,4,0.04) 100%);
+      border:1px solid rgba(252,76,4,0.28); padding:36px 28px;
+      position:relative; overflow:hidden;
     }
-    .cta-eyebrow {
-      font-family:var(--font-mono);
-      font-size:10px; font-weight:500;
+    .cta-block::before {
+      content:''; position:absolute; bottom:-40px; right:-40px;
+      width:180px; height:180px;
+      background:radial-gradient(circle, rgba(252,76,4,0.12) 0%, transparent 70%);
+      border-radius:50%; pointer-events:none;
+    }
+    .cta-urgency {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
       letter-spacing:0.14em; text-transform:uppercase;
-      color:var(--orange); margin-bottom:10px;
+      background:rgba(252,76,4,0.18); border:1px solid rgba(252,76,4,0.35);
+      color:var(--orange); padding:4px 12px; border-radius:100px;
+      display:inline-block; margin-bottom:16px;
     }
     .cta-title {
-      font-family:var(--font-display);
-      font-style:italic;
-      font-size:22px; color:var(--white);
-      margin-bottom:10px;
+      font-family:var(--font-display); font-style:italic;
+      font-size:clamp(20px,4vw,26px); color:var(--white); margin-bottom:12px; line-height:1.2;
     }
-    .cta-desc { font-size:14px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
+    .cta-desc { font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:8px; }
+    .cta-price {
+      display:flex; align-items:center; gap:14px; margin:16px 0 20px;
+      flex-wrap:wrap;
+    }
+    .cta-price-old {
+      font-family:var(--font-mono); font-size:14px;
+      color:var(--subtle); text-decoration:line-through;
+    }
+    .cta-price-new {
+      font-family:var(--font-display); font-style:italic;
+      font-size:36px; color:var(--white); line-height:1;
+    }
+    .cta-price-badge {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3);
+      color:#4ade80; padding:4px 10px; border-radius:100px;
+    }
     .cta-btn {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:14px 28px; border-radius:var(--r);
-      background: linear-gradient(135deg, var(--orange), #e63d00);
-      color:#fff;
-      font-size:13px; font-weight:700;
-      text-decoration:none;
-      box-shadow:0 0 32px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      width:100%; padding:18px 28px; border-radius:var(--r);
+      background:linear-gradient(135deg, var(--orange), #e63d00);
+      color:#fff; font-family:var(--font-body); font-size:16px; font-weight:700;
+      text-decoration:none; box-shadow:0 0 40px var(--orange-g), inset 0 1px 0 rgba(255,255,255,0.14);
       transition:transform 200ms var(--ease), box-shadow 200ms;
+      position:relative; overflow:hidden;
     }
-    .cta-btn:hover { transform:translateY(-2px); box-shadow:0 0 48px rgba(252,76,4,0.45); }
+    .cta-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,0.10) 0%, transparent 55%); }
+    .cta-btn:hover { transform:translateY(-2px); box-shadow:0 0 56px rgba(252,76,4,0.5); }
+    .cta-guarantee {
+      text-align:center; margin-top:12px;
+      font-size:12px; color:var(--subtle);
+      display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .cta-guarantee svg { width:13px; height:13px; }
 
-    /* Action buttons */
+    /* Bullets */
+    .what-list { display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+    .what-item {
+      display:flex; align-items:flex-start; gap:12px;
+      font-size:14px; color:rgba(242,238,233,0.85); line-height:1.5;
+    }
+    .what-item::before { content:'✓'; color:#4ade80; font-weight:700; flex-shrink:0; margin-top:1px; }
+
     .action-btns { display:flex; flex-direction:column; gap:10px; }
     .btn-outline {
       display:flex; align-items:center; justify-content:center; gap:8px;
-      width:100%; padding:15px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:var(--r);
-      color:var(--muted);
-      font-family:var(--font-body);
-      font-size:13px; font-weight:600;
-      cursor:pointer;
-      transition:all 200ms var(--ease);
-      touch-action:manipulation;
+      width:100%; padding:15px; background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10); border-radius:var(--r);
+      color:var(--muted); font-family:var(--font-body); font-size:13px; font-weight:600;
+      cursor:pointer; transition:all 200ms var(--ease); touch-action:manipulation;
     }
     .btn-outline:hover { background:rgba(255,255,255,0.08); color:var(--white); }
     .btn-outline svg { width:15px; height:15px; }
-    .btn-outline.green { border-color:rgba(34,197,94,0.25); color:rgba(34,197,94,0.9); }
-    .btn-outline.green:hover { background:rgba(34,197,94,0.07); }
 
-    /* Footer */
     footer {
-      text-align:center;
-      padding:28px 24px;
+      text-align:center; padding:28px 24px;
       font-size:12px; color:var(--subtle);
       border-top:1px solid rgba(255,255,255,0.06);
     }
     footer strong { color:var(--muted); }
 
-    /* ── Responsive ─────────────────────────────────────────── */
     @media(max-width:480px){
       .intro-title { font-size:38px; }
       .q-ghost-num { font-size:120px; right:-16px; }
       .score-hero { padding:32px 22px; }
+      .cta-block { padding:28px 20px; }
     }
-
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
-    }
+    @media(prefers-reduced-motion:reduce){ *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
 </head>
 <body>
@@ -651,29 +388,21 @@
 
 <div class="shell">
 
-  <!-- ══════════ INTRO ══════════ -->
+  <!-- INTRO -->
   <div id="screen-intro">
     <div class="intro-wrap">
       <div class="intro-label">Engrene · Diagnóstico Estratégico</div>
-
-      <h1 class="intro-title">
-        Você é<br><em>estrategista</em><br>no seu negócio?
-      </h1>
-
-      <p class="intro-sub">
-        3 minutinhos. Descubra seu nível estratégico e o que está travando o crescimento do seu negócio.
-      </p>
-
+      <h1 class="intro-title">Você é<br><em>estrategista</em><br>no seu negócio?</h1>
+      <p class="intro-sub">3 minutinhos. Descubra seu nível estratégico e veja o que está travando o crescimento do seu negócio.</p>
       <div class="intro-pills">
         <span class="intro-pill">~3 minutinhos</span>
-        <span class="intro-pill">Grátis</span>
+        <span class="intro-pill">10 perguntas</span>
+        <span class="intro-pill">Diagnóstico grátis</span>
       </div>
-
       <button class="btn-start" onclick="iniciarQuiz()">
         Descobrir meu nível
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-
       <p class="intro-disclaimer">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2a4 4 0 100 8 4 4 0 000-8zM3.5 14c0-2.2 2-3.5 4.5-3.5s4.5 1.3 4.5 3.5" stroke-linecap="round"/></svg>
         Criado por Suellen Warmling · Engrene
@@ -681,16 +410,14 @@
     </div>
   </div>
 
-  <!-- ══════════ QUIZ ══════════ -->
+  <!-- QUIZ -->
   <div id="screen-quiz">
     <div class="quiz-wrap">
       <div class="quiz-header">
         <div class="quiz-counter" id="q-counter">~3 minutinhos</div>
-        <div class="quiz-pts" id="q-pts">0 pts</div>
+        <div class="quiz-pts" id="q-pts"></div>
       </div>
-      <div class="question-area" id="question-area">
-        <!-- renderizado via JS -->
-      </div>
+      <div class="question-area" id="question-area"></div>
       <div class="q-nav" id="q-nav">
         <button class="btn-back" id="btn-back" onclick="voltarQuestao()" style="visibility:hidden">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 10H4M9 5l-5 5 5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -704,46 +431,65 @@
     </div>
   </div>
 
-  <!-- ══════════ LOADING ══════════ -->
-  <div id="screen-loading">
-    <div class="loading-wrap">
-      <div class="loading-orb">
-        <div class="orb-ring"></div>
-        <div class="orb-ring-2"></div>
-        <div class="orb-dot"></div>
-      </div>
-      <div class="loading-title">Analisando seu perfil…</div>
-      <div class="loading-sub">Gerando diagnóstico personalizado com IA</div>
-      <div class="loading-steps">
-        <div class="lstep" id="ls1"><div class="lstep-dot"></div>Calculando pontuação estratégica</div>
-        <div class="lstep" id="ls2"><div class="lstep-dot"></div>Mapeando oportunidades do nicho</div>
-        <div class="lstep" id="ls3"><div class="lstep-dot"></div>Criando plano de ação personalizado</div>
-        <div class="lstep" id="ls4"><div class="lstep-dot"></div>Gerando campanhas e scripts</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════ RESULTADO ══════════ -->
+  <!-- RESULTADO -->
   <div id="screen-resultado">
     <div class="resultado-wrap">
 
+      <!-- Score -->
       <div class="score-hero" id="score-hero">
         <div class="score-label-top">Diagnóstico Engrene · Resultado</div>
         <div class="score-display">
           <div class="score-number" id="r-score">0</div>
           <div class="score-denom">/10</div>
         </div>
-        <div class="score-nivel" id="r-nivel-badge">Calculando…</div>
+        <div class="score-nivel" id="r-nivel-badge">…</div>
         <div class="score-nicho" id="r-nicho-info"></div>
       </div>
 
+      <!-- Diagnóstico -->
+      <div class="diag-card" id="r-diagnostico">
+        <div class="diag-card-title">🧠 Diagnóstico</div>
+        <div class="diag-text" id="r-diag-text"></div>
+      </div>
+
+      <!-- Oportunidades -->
+      <div class="diag-card" id="r-oportunidades">
+        <div class="diag-card-title">💡 Oportunidades escondidas no seu cenário</div>
+        <div class="opp-list" id="r-opp-list"></div>
+      </div>
+
+      <!-- Plano de ação -->
+      <div class="diag-card" id="r-plano">
+        <div class="diag-card-title">🎯 Seus próximos movimentos</div>
+        <div class="action-list" id="r-action-list"></div>
+      </div>
+
+      <!-- CTA Imersão -->
       <div class="cta-block">
-        <div class="cta-eyebrow">Próximo passo</div>
-        <h3 class="cta-title">Pronto para implementar a estratégia?</h3>
-        <p class="cta-desc">Junte-se ao método Engrene e transforme esses insights em resultados reais no seu negócio.</p>
+        <div class="cta-urgency">🔥 Oferta por tempo limitado</div>
+        <h3 class="cta-title">Imersão Apareça e Venda — 2 noites que mudam o jogo do seu negócio</h3>
+        <p class="cta-desc">
+          Em 2 noites ao vivo (25 e 26 de maio, 19h30), você sai com plano de marketing pronto, conteúdo feito com IA e ações de vendas pra implementar na semana seguinte. <strong>+35 mil empreendedores já treinados.</strong>
+        </p>
+        <div class="what-list">
+          <div class="what-item">Plano de marketing personalizado para o seu negócio</div>
+          <div class="what-item">Conteúdo criado com IA (posts, legendas, ideias prontas)</div>
+          <div class="what-item">Posicionamento que atrai clientes certos no Instagram</div>
+          <div class="what-item">Ações de alto impacto para gerar caixa rápido</div>
+          <div class="what-item">Tendências de conteúdo que funcionam agora</div>
+        </div>
+        <div class="cta-price">
+          <span class="cta-price-old">R$ 37</span>
+          <span class="cta-price-new">R$ 17</span>
+          <span class="cta-price-badge">54% OFF hoje</span>
+        </div>
         <a href="https://pay.hotmart.com/B86161012H?off=vyhlgrnt&checkoutMode=10" class="cta-btn" target="_blank" rel="noopener">
-          Quero o método Engrene →
+          Garantir minha vaga por R$ 17 →
         </a>
+        <p class="cta-guarantee">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.5l-3.6 1.9.7-4L2.2 5.7l4-.6L8 1.5z" stroke-linejoin="round"/></svg>
+          Acesso imediato · Online · 2 noites de imersão ao vivo
+        </p>
       </div>
 
       <div class="action-btns">
@@ -758,138 +504,77 @@
 
   <footer>Criado por <strong>Suellen Warmling</strong> · <strong>Engrene</strong></footer>
 
-</div><!-- /shell -->
+</div>
 
 <script>
-/* ════════════════════════════════════════════════════════════
-   DADOS DO QUIZ
-════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════
+   PERGUNTAS — 6 de pontuação + 4 de contexto
+════════════════════════════════════════════════ */
 const PERGUNTAS = [
-  // BLOCO 1 — ESTRATÉGIA (pontuação)
+  // — PONTUAÇÃO (6 perguntas × 10 pts = 60 pts máx) —
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Quando suas visualizações nos Stories caem, você:',
+    bloco: 'Estratégia',
+    texto: 'Quando as vendas caem, o que você faz primeiro?',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Para de postar', pts:0 },
-      { letra:'B', texto:'Publica um único story no dia com CTA', pts:5 },
-      { letra:'C', texto:'Intensifica com rotina + interação', pts:2 },
+      { letra:'A', texto:'Posta mais nas redes e espera reagir', pts:0 },
+      { letra:'B', texto:'Faz uma promoção com desconto', pts:2 },
+      { letra:'C', texto:'Activa clientes antigos e prospecta ativamente', pts:10 },
     ]
   },
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Em uma ação de vendas, o que NÃO pode faltar?',
+    bloco: 'Estratégia',
+    texto: 'Você sabe qual ação gerou a última venda que fechou?',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Antecipação, escassez, urgência', pts:5 },
-      { letra:'B', texto:'Promoção e desconto', pts:0 },
-      { letra:'C', texto:'Live shop', pts:0 },
+      { letra:'A', texto:'Não tenho ideia', pts:0 },
+      { letra:'B', texto:'Acho que foi o Instagram', pts:3 },
+      { letra:'C', texto:'Sim — acompanho de onde vem cada cliente', pts:10 },
     ]
   },
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Se você precisa vender rápido essa semana sem investir, você:',
+    bloco: 'Conteúdo',
+    texto: 'Qual gancho você usaria para um reels hoje?',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Cria conteúdo pra crescer seguidores', pts:0 },
-      { letra:'B', texto:'Faz prospecção', pts:2 },
-      { letra:'C', texto:'Aumenta ticket médio', pts:5 },
+      { letra:'A', texto:'"Novidade no estoque!" ou "Promoção de hoje!"', pts:0 },
+      { letra:'B', texto:'"Benefícios do meu produto/serviço"', pts:2 },
+      { letra:'C', texto:'"A coisa que eu NÃO faria mais nunca no meu negócio"', pts:10 },
     ]
   },
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Sobre tráfego pago para negócio local — por ex. restaurante por quilo — qual campanha seria ideal?',
+    bloco: 'Conteúdo',
+    texto: 'Seu conteúdo atual tem:',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Campanha de alcance', pts:5 },
-      { letra:'B', texto:'Campanha de mensagens (WhatsApp)', pts:0 },
-      { letra:'C', texto:'Campanha de conversão', pts:0 },
+      { letra:'A', texto:'Artes bonitas e posts de promoção', pts:0 },
+      { letra:'B', texto:'Mistura de artes e vídeos', pts:4 },
+      { letra:'C', texto:'Reels toda semana onde eu apareço e gero desejo', pts:10 },
     ]
   },
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Sobre "turbinar" posts pelo botão azul, o que é a maior verdade:',
+    bloco: 'Vendas',
+    texto: 'No WhatsApp, quando chega uma pessoa interessada, você:',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Funciona pra vender mais', pts:1 },
-      { letra:'B', texto:'Funciona pra crescer seguidores', pts:5 },
-      { letra:'C', texto:'Não funciona', pts:0 },
+      { letra:'A', texto:'Manda o preço e aguarda a resposta', pts:0 },
+      { letra:'B', texto:'Manda o preço e algum detalhe do produto', pts:3 },
+      { letra:'C', texto:'Faz perguntas, entende a dor, e quebra objeção antes de mandar preço', pts:10 },
     ]
   },
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'O jeito mais fácil de crescer seguidores é:',
+    bloco: 'Vendas',
+    texto: 'Para vender mais rápido essa semana sem investir em anúncio, você:',
     tipo: 'opcoes',
     opcoes: [
-      { letra:'A', texto:'Modelando vídeos virais', pts:5 },
-      { letra:'B', texto:'Investindo em anúncios', pts:2 },
-      { letra:'C', texto:'Contratando influencers', pts:1 },
+      { letra:'A', texto:'Cria mais conteúdo pra atrair seguidores novos', pts:0 },
+      { letra:'B', texto:'Faz uma promoção relâmpago', pts:4 },
+      { letra:'C', texto:'Reactiva quem já comprou ou demonstrou interesse', pts:10 },
     ]
   },
+  // — CONTEXTO (sem pontuação) —
   {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Seu conteúdo hoje:',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'Muitas artes de acordo com o branding da marca', pts:0 },
-      { letra:'B', texto:'Feito 100% por social media ou agência', pts:0 },
-      { letra:'C', texto:'Tem reels toda semana e eu apareço', pts:5 },
-    ]
-  },
-  {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Seu atendimento no WhatsApp hoje tem:',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'Foco em agilidade', pts:1 },
-      { letra:'B', texto:'Padrão, perguntas e quebra de objeção', pts:5 },
-      { letra:'C', texto:'Olhar atento ao perfil comportamental do cliente', pts:4 },
-    ]
-  },
-  {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Você acompanha métricas?',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'Não', pts:0 },
-      { letra:'B', texto:'Às vezes', pts:2 },
-      { letra:'C', texto:'Sempre uso para decidir', pts:5 },
-    ]
-  },
-  {
-    bloco: 'Bloco 1 — Estratégia',
-    texto: 'Sobre crescimento do negócio:',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'Depende do Instagram', pts:1 },
-      { letra:'B', texto:'Depende de várias tentativas', pts:2 },
-      { letra:'C', texto:'Depende de estratégia + ação', pts:5 },
-    ]
-  },
-  // BLOCO 2 — CONTEÚDO (pontuação)
-  {
-    bloco: 'Bloco 2 — Conteúdo',
-    texto: 'Qual gancho você usaria para um vídeo?',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'"Benefícios da Airfryer XYZ"', pts:1 },
-      { letra:'B', texto:'"Você sabia que Airfryer é mais saudável?"', pts:1 },
-      { letra:'C', texto:'"Coisas que eu colocaria na minha casa hoje"', pts:5 },
-    ]
-  },
-  {
-    bloco: 'Bloco 2 — Conteúdo',
-    texto: 'Frequência ideal de conteúdo:',
-    tipo: 'opcoes',
-    opcoes: [
-      { letra:'A', texto:'Uma vez na semana com capricho', pts:0 },
-      { letra:'B', texto:'Todo dia — qualidade se constrói com quantidade', pts:5 },
-      { letra:'C', texto:'Quando tiver algo relevante, não adianta postar por postar', pts:0 },
-    ]
-  },
-  // BLOCO 3 — CONTEXTO (não pontua)
-  {
-    bloco: 'Bloco 3 — Seu negócio',
+    bloco: 'Seu negócio',
     texto: 'Qual é o seu nicho?',
     tipo: 'select',
     campo: 'nicho',
@@ -897,16 +582,14 @@ const PERGUNTAS = [
       'Salão de beleza / Estética','Manicure / Nail designer','Sobrancelha / Lash designer',
       'Barbearia','Massagem / Fisioterapia','Confeitaria / Doces','Padaria / Café',
       'Restaurante / Alimentação','Loja de roupas / Moda','Ótica / Joalheria / Acessórios',
-      'Papelaria / Presentes','Artesanato / Handmade','Floricultura / Decoração',
-      'Pet shop / Veterinário','Farmácia / Suplementos','Academia / Personal',
-      'Nutrição / Saúde','Médico / Dentista','Advogado / Contabilidade',
-      'Arquitetura / Design','Imobiliária / Corretor','Fotografia',
-      'Escola / Curso presencial','Marketing / Social media','Buffet / Eventos',
-      'Auto / Estética automotiva','Outro'
+      'Artesanato / Handmade','Floricultura / Decoração','Pet shop / Veterinário',
+      'Academia / Personal','Nutrição / Saúde','Médico / Dentista',
+      'Advogado / Contabilidade','Fotografia','Escola / Curso presencial',
+      'Marketing / Social media','Buffet / Eventos','Outro'
     ]
   },
   {
-    bloco: 'Bloco 3 — Seu negócio',
+    bloco: 'Seu negócio',
     texto: 'Faturamento mensal atual:',
     tipo: 'opcoes-simples',
     campo: 'faturamento',
@@ -918,18 +601,18 @@ const PERGUNTAS = [
     ]
   },
   {
-    bloco: 'Bloco 3 — Seu negócio',
+    bloco: 'Seu negócio',
     texto: 'Você investe em tráfego pago?',
     tipo: 'opcoes-simples',
     campo: 'trafego',
     opcoes: [
       { letra:'A', texto:'Não' },
-      { letra:'B', texto:'Já testei' },
+      { letra:'B', texto:'Já testei mas parei' },
       { letra:'C', texto:'Sim, com frequência' },
     ]
   },
   {
-    bloco: 'Bloco 3 — Seu negócio',
+    bloco: 'Seu negócio',
     texto: 'Seu principal canal de vendas hoje:',
     tipo: 'opcoes-simples',
     campo: 'canal',
@@ -937,22 +620,22 @@ const PERGUNTAS = [
       { letra:'A', texto:'Instagram' },
       { letra:'B', texto:'WhatsApp' },
       { letra:'C', texto:'Loja física' },
-      { letra:'D', texto:'Site' },
+      { letra:'D', texto:'Site / marketplace' },
     ]
   },
 ];
 
-/* ════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════
    ESTADO
-════════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════ */
 let atual = 0;
 let pontuacao = 0;
 let respostas = {};
 let contexto = { nicho:'', faturamento:'', trafego:'', canal:'' };
 
-/* ════════════════════════════════════════════════════════════
-   FUNÇÕES PRINCIPAIS
-════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════
+   NAVEGAÇÃO
+════════════════════════════════════════════════ */
 function iniciarQuiz() {
   document.getElementById('screen-intro').style.display = 'none';
   document.getElementById('screen-quiz').style.display = 'block';
@@ -964,24 +647,17 @@ function renderQuestao() {
   const area = document.getElementById('question-area');
   const total = PERGUNTAS.length;
 
-  // Progresso
-  document.getElementById('progress-fill').style.width = `${(atual/total)*100}%`;
-  document.getElementById('q-counter').textContent = `Pergunta ${atual+1} / ${total}`;
-  document.getElementById('q-pts').textContent = `${pontuacao} pts`;
-
-  // Botão voltar
+  document.getElementById('progress-fill').style.width = `${(atual / total) * 100}%`;
   document.getElementById('btn-back').style.visibility = atual > 0 ? 'visible' : 'hidden';
   document.getElementById('btn-next').disabled = true;
 
-  // Label do botão na última
   const btnNext = document.getElementById('btn-next');
   btnNext.innerHTML = atual === total - 1
     ? 'Ver resultado <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3l7 7-7 7M3 10h14" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     : 'Próximo <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-  // Render
   let html = `
-    <div class="q-ghost-num">${String(atual+1).padStart(2,'0')}</div>
+    <div class="q-ghost-num">${String(atual + 1).padStart(2, '0')}</div>
     <div class="q-block-tag">${q.bloco}</div>
     <div class="q-text">${q.texto}</div>
   `;
@@ -991,132 +667,334 @@ function renderQuestao() {
     q.opcoes.forEach(op => {
       const sel = respostas[atual] === op.letra ? 'selected' : '';
       html += `
-        <div class="q-opt ${sel}" onclick="selecionarOpcao(this, '${op.letra}')">
+        <div class="q-opt ${sel}" onclick="selecionarOpcao('${op.letra}')">
           <div class="q-opt-letter">${op.letra}</div>
           <div class="q-opt-text">${op.texto}</div>
         </div>`;
     });
     html += '</div>';
-    if (respostas[atual]) document.getElementById('btn-next').disabled = false;
   } else if (q.tipo === 'select') {
-    const val = contexto[q.campo] || '';
-    html += `
-      <div class="q-options">
-        <select class="q-input" id="q-select" onchange="selecionarSelect(this)">
-          <option value="">Selecione seu nicho…</option>
-          ${q.opcoes.map(o => `<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}
-        </select>
-      </div>`;
+    const val = respostas[atual] || '';
+    html += `<select class="q-input" onchange="selecionarSelect(this.value)">
+      <option value="">Selecione seu nicho...</option>`;
+    q.opcoes.forEach(op => {
+      html += `<option value="${op}" ${val === op ? 'selected' : ''}>${op}</option>`;
+    });
+    html += '</select>';
     if (val) document.getElementById('btn-next').disabled = false;
-    setTimeout(() => {
-      const sel = document.getElementById('q-select');
-      if (sel) sel.addEventListener('change', () => {
-        document.getElementById('btn-next').disabled = !sel.value;
-      });
-    }, 50);
   }
 
   area.innerHTML = html;
   area.style.animation = 'none';
-  requestAnimationFrame(() => { area.style.animation = ''; });
+  area.offsetHeight;
+  area.style.animation = 'slideIn 350ms var(--ease)';
+
+  if (respostas[atual]) document.getElementById('btn-next').disabled = false;
 }
 
-function selecionarOpcao(el, letra) {
-  document.querySelectorAll('.q-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-  respostas[atual] = letra;
-
+function selecionarOpcao(letra) {
   const q = PERGUNTAS[atual];
-  if ((q.tipo === 'opcoes' || q.tipo === 'opcoes-simples') && q.campo) {
+  respostas[atual] = letra;
+  document.querySelectorAll('.q-opt').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.q-opt').forEach(el => {
+    if (el.querySelector('.q-opt-letter').textContent === letra) el.classList.add('selected');
+  });
+  if (q.tipo === 'opcoes' && q.opcoes) {
+    const op = q.opcoes.find(o => o.letra === letra);
+    if (op && op.pts !== undefined) {
+      pontuacao = calcularPontuacao();
+    }
+  }
+  if (q.campo) {
     const op = q.opcoes.find(o => o.letra === letra);
     if (op) contexto[q.campo] = op.texto;
   }
   document.getElementById('btn-next').disabled = false;
 }
 
-function selecionarSelect(el) {
+function selecionarSelect(val) {
+  respostas[atual] = val;
   const q = PERGUNTAS[atual];
-  if (q.campo) contexto[q.campo] = el.value;
-  document.getElementById('btn-next').disabled = !el.value;
+  if (q.campo) contexto[q.campo] = val;
+  document.getElementById('btn-next').disabled = !val;
+}
+
+function calcularPontuacao() {
+  let total = 0;
+  PERGUNTAS.forEach((q, i) => {
+    if (q.tipo === 'opcoes' && respostas[i]) {
+      const op = q.opcoes.find(o => o.letra === respostas[i]);
+      if (op) total += op.pts || 0;
+    }
+  });
+  return total;
 }
 
 function proximaQuestao() {
-  const q = PERGUNTAS[atual];
-
-  // Validação select
-  if (q.tipo === 'select') {
-    const sel = document.getElementById('q-select');
-    if (!sel || !sel.value) return;
-    contexto[q.campo] = sel.value;
-  }
-
-  // Pontuar
-  if (q.tipo === 'opcoes' && respostas[atual]) {
-    const op = q.opcoes.find(o => o.letra === respostas[atual]);
-    if (op) pontuacao += op.pts;
-  }
-
   if (atual < PERGUNTAS.length - 1) {
     atual++;
     renderQuestao();
   } else {
-    gerarResultado();
+    mostrarResultado();
   }
 }
 
 function voltarQuestao() {
-  if (atual === 0) return;
-  // Desfaz pontuação da questão atual se pontuada
-  const q = PERGUNTAS[atual];
-  if (q.tipo === 'opcoes' && respostas[atual]) {
-    const op = q.opcoes.find(o => o.letra === respostas[atual]);
-    if (op) pontuacao -= op.pts;
-  }
-  atual--;
-  renderQuestao();
+  if (atual > 0) { atual--; renderQuestao(); }
 }
 
-/* ════════════════════════════════════════════════════════════
-   GERAR RESULTADO
-════════════════════════════════════════════════════════════ */
-async function gerarResultado() {
-  // Score /10 com teto 8.9
-  const maxRaw = 60;
-  const scoreDez = Math.min(8.9, parseFloat((pontuacao / maxRaw * 10).toFixed(1)));
+/* ════════════════════════════════════════════════
+   RESULTADO
+════════════════════════════════════════════════ */
+function mostrarResultado() {
+  pontuacao = calcularPontuacao();
+  const maxPts = 60;
+  // Escala: 0–60 → 0–8.9 (cap em 8.9)
+  const scoreDez = Math.min(8.9, parseFloat(((pontuacao / maxPts) * 8.9).toFixed(1)));
 
-  // Nível
   let nivel, nivelClass;
   if (pontuacao <= 20) {
     nivel = '❌ Empreendedor Amador';
     nivelClass = 'baixo';
   } else if (pontuacao <= 40) {
-    nivel = '⚠️ Empreendedor em Processo';
+    nivel = '⚠️ Empreendedor no Processo';
     nivelClass = 'medio';
   } else {
     nivel = '✅ Empreendedor Estrategista';
     nivelClass = 'alto';
   }
 
-  // Mostrar resultado direto
   document.getElementById('screen-quiz').style.display = 'none';
   document.getElementById('screen-resultado').style.display = 'block';
-  window.scrollTo({ top:0, behavior:'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Score com animação
-  const scoreEl = document.getElementById('r-score');
-  animarNumero(scoreEl, 0, scoreDez, 1200);
+  // Score animado
+  animarNumero(document.getElementById('r-score'), 0, scoreDez, 1400);
+  const badge = document.getElementById('r-nivel-badge');
+  badge.textContent = nivel;
+  badge.className = `score-nivel ${nivelClass}`;
 
-  const nivelBadge = document.getElementById('r-nivel-badge');
-  nivelBadge.textContent = nivel;
-  nivelBadge.className = `score-nivel ${nivelClass}`;
+  if (contexto.nicho) {
+    document.getElementById('r-nicho-info').textContent =
+      `${contexto.nicho} · ${contexto.faturamento || ''}`;
+  }
 
-  document.getElementById('r-nicho-info').textContent =
-    contexto.nicho ? `Nicho: ${contexto.nicho} · ${contexto.faturamento}` : '';
+  // Diagnóstico
+  document.getElementById('r-diag-text').innerHTML = gerarDiagnostico(pontuacao, contexto);
+
+  // Oportunidades
+  document.getElementById('r-opp-list').innerHTML = gerarOportunidades(pontuacao, contexto);
+
+  // Plano de ação
+  document.getElementById('r-action-list').innerHTML = gerarPlano(pontuacao, contexto);
 }
 
-/* ════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════
+   CONTEÚDO DINÂMICO
+════════════════════════════════════════════════ */
+function gerarDiagnostico(pts, ctx) {
+  const nicho = ctx.nicho || 'seu negócio';
+  const fat = ctx.faturamento || '';
+
+  if (pts <= 20) {
+    return `Você está operando mais no <strong>improviso do que na estratégia</strong>.
+    Em ${nicho}, isso se traduz em dias de altos e baixos sem conseguir entender por quê —
+    uma semana cheia, outra vazia. Você trabalha muito, mas a energia não se converte em resultado previsível.
+    A boa notícia: o problema não é o seu produto. É a falta de método.`;
+  } else if (pts <= 40) {
+    return `Você já tem <strong>alguns movimentos certos</strong>, mas ainda mistura ação com estratégia aleatória.
+    Em ${nicho}${fat ? ' com ' + fat + ' de faturamento' : ''}, você sente que poderia vender mais —
+    e tem razão. O que falta é consistência: uma base de conteúdo que gera desejo,
+    um processo de atendimento que converte, e ações de vendas com intenção.
+    Você está a poucos ajustes de dar um salto real.`;
+  } else {
+    return `Você já <strong>pensa como estrategista</strong>. Entende que venda é consequência de método,
+    não de sorte. Em ${nicho}, você tem visão — mas provavelmente ainda deixa dinheiro na mesa
+    em pontos específicos: escala de conteúdo, ticket médio ou aproveitamento da base de clientes.
+    O próximo nível é colocar isso em sistema e acelerar com as ferramentas certas.`;
+  }
+}
+
+function gerarOportunidades(pts, ctx) {
+  const nicho = ctx.nicho || '';
+  const fat = ctx.faturamento || '';
+  const trafego = ctx.trafego || '';
+  const canal = ctx.canal || '';
+
+  const opps = [];
+
+  // Por nível
+  if (pts <= 20) {
+    opps.push({
+      icon: '💸',
+      title: 'Dinheiro travado na base inativa',
+      desc: 'Quem já comprou de você uma vez tem 60% mais chance de comprar de novo. Uma mensagem de reativação esta semana pode gerar caixa imediato sem nenhum investimento.'
+    });
+    opps.push({
+      icon: '📱',
+      title: 'Conteúdo que atrai comprador, não curioso',
+      desc: `Em ${nicho || 'negócios locais'}, posts bonitos não vendem. Reels onde você aparece e mostra o resultado do cliente convertem 3x mais. Você ainda não está fazendo isso.`
+    });
+    opps.push({
+      icon: '💬',
+      title: 'WhatsApp sendo subutilizado',
+      desc: 'A maioria dos negócios manda preço e espera. Uma conversa com 2 perguntas certas antes do preço fecha o dobro. Você está deixando vendas escorregarem.'
+    });
+  } else if (pts <= 40) {
+    opps.push({
+      icon: '📈',
+      title: 'Ticket médio com potencial de crescer',
+      desc: `Para ${nicho || 'o seu nicho'}, aumentar o ticket em 20% é mais fácil do que dobrar clientes. Combinação de produto/serviço, upsell no atendimento ou pacote fechado — você ainda não explorou isso.`
+    });
+    opps.push({
+      icon: '🎯',
+      title: 'Conteúdo gerando alcance, não venda',
+      desc: 'Você provavelmente tem engajamento mas as vendas não acompanham. Falta a virada: o conteúdo que cria desejo + o CTA que direciona para o direct ou WhatsApp.'
+    });
+    if (trafego.includes('Não') || trafego.includes('parei')) {
+      opps.push({
+        icon: '🚀',
+        title: 'Tráfego pago: alavanca fora do uso',
+        desc: `Com ${fat || 'seu faturamento atual'}, um investimento pequeno e inteligente em anúncios pode amplificar o que já funciona no orgânico. Você está crescendo no orgânico puro — mais lento.`
+      });
+    } else {
+      opps.push({
+        icon: '🔄',
+        title: 'Anúncio bom, funil fraco',
+        desc: 'Você investe em tráfego, mas se a venda não fecha no atendimento, o dinheiro vai embora. O problema raramente é o anúncio — é o que acontece depois do clique.'
+      });
+    }
+  } else {
+    opps.push({
+      icon: '⚡',
+      title: 'Escala: replicar o que funciona',
+      desc: `Você já tem método. A oportunidade agora é sistematizar: criar rotina de conteúdo, delegar o operacional e usar IA pra produzir em velocidade sem perder qualidade.`
+    });
+    opps.push({
+      icon: '🏆',
+      title: 'Posicionamento premium ainda inexplorado',
+      desc: `Em ${nicho || 'seu mercado'}, quem se posiciona como referência cobra mais e fecha mais rápido. Sua expertise merece preço premium — mas o posicionamento precisa comunicar isso.`
+    });
+    opps.push({
+      icon: '📊',
+      title: 'Base de clientes: mina de ouro esquecida',
+      desc: 'Negócios que trabalham a retenção crescem 2x mais rápido. Programa de fidelidade, comunidade VIP, e reativação mensal podem ser sua fonte de receita mais previsível.'
+    });
+  }
+
+  return opps.map(o => `
+    <div class="opp-item">
+      <div class="opp-icon">${o.icon}</div>
+      <div class="opp-body">
+        <div class="opp-title">${o.title}</div>
+        <div class="opp-desc">${o.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+function gerarPlano(pts, ctx) {
+  const nicho = ctx.nicho || 'seu negócio';
+  const canal = ctx.canal || '';
+
+  let acoes = [];
+
+  if (pts <= 20) {
+    acoes = [
+      {
+        num: '01',
+        title: 'Reativar clientes que já compraram',
+        desc: `Lista todo mundo que comprou nos últimos 6 meses e manda uma mensagem personalizada hoje. "Oi [nome], tô com uma novidade que acho que você vai gostar…"`,
+        impact: '→ Potencial de gerar caixa em 24h'
+      },
+      {
+        num: '02',
+        title: 'Fazer 1 reels essa semana onde você aparece',
+        desc: `Sem precisar de câmera profissional. Grava um vídeo mostrando o antes/depois do seu trabalho em ${nicho} ou revelando uma coisa que a maioria não sabe.`,
+        impact: '→ Começar a gerar autoridade orgânica'
+      },
+      {
+        num: '03',
+        title: 'Criar um script de WhatsApp para não perder venda',
+        desc: `Quando chega uma pessoa interessada: 1) Pergunta o que precisa, 2) Mostra que entende, 3) Apresenta a solução, 4) Manda o preço. Nunca manda preço antes disso.`,
+        impact: '→ Aumentar taxa de conversão no atendimento'
+      },
+    ];
+  } else if (pts <= 40) {
+    acoes = [
+      {
+        num: '01',
+        title: 'Estruturar ação de vendas com antecipação + urgência',
+        desc: `Escolha um produto/serviço e faça uma campanha de 5 dias: 2 dias criando desejo, 1 dia de abertura com bônus, 1 dia de urgência, 1 dia de último chamado.`,
+        impact: '→ Pode gerar 30–50% do faturamento em uma semana'
+      },
+      {
+        num: '02',
+        title: 'Criar rotina de conteúdo com 2 reels por semana',
+        desc: `Um reels mostrando o processo/resultado (gera desejo) e um revelando um segredo do nicho (gera autoridade). Aparece você. Sem filtro excessivo.`,
+        impact: '→ Crescimento orgânico consistente'
+      },
+      {
+        num: '03',
+        title: 'Aumentar ticket médio com combo ou pacote',
+        desc: `Para cada serviço/produto que você vende, crie uma opção "plus" com 20–30% a mais de valor. Ofereça no momento do fechamento. Metade das pessoas aceita.`,
+        impact: '→ Aumento de 15–25% no faturamento sem novo cliente'
+      },
+      {
+        num: '04',
+        title: 'Montar métricas básicas para decidir melhor',
+        desc: `Todo mês: quantos contatos chegaram, quantos fecharam, qual canal trouxe mais venda. Com esses 3 números você para de achismo e começa a decidir com dados.`,
+        impact: '→ Base para escalar o que funciona'
+      },
+    ];
+  } else {
+    acoes = [
+      {
+        num: '01',
+        title: 'Usar IA para produzir conteúdo em escala',
+        desc: `Com as ferramentas certas, você produz em 2 horas o que levaria uma semana. Roteiros de reels, legendas, ideias de campanha — tudo com a sua voz e para o seu nicho.`,
+        impact: '→ 5x mais conteúdo com o mesmo tempo'
+      },
+      {
+        num: '02',
+        title: 'Lançar campanha de reativação mensal',
+        desc: `Toda virada de mês, contacta quem não comprou nos últimos 60 dias. Mensagem direta, oferta exclusiva para quem já é cliente. Previsível e de alto retorno.`,
+        impact: '→ Fonte de receita recorrente sem custo de aquisição'
+      },
+      {
+        num: '03',
+        title: 'Elevar posicionamento com storytelling de resultado',
+        desc: `Documente e publique o resultado de 1 cliente por semana. Antes/processo/depois. Isso gera prova social e autoridade de mercado ao mesmo tempo.`,
+        impact: '→ Justifica preço premium e atrai o cliente certo'
+      },
+      {
+        num: '04',
+        title: 'Criar sistema de indicação',
+        desc: `Clientes satisfeitos indicam quando você pede de forma estruturada. Crie um benefício simples para quem indica (desconto, brinde, acesso exclusivo). Active agora.`,
+        impact: '→ Canal de aquisição com custo próximo de zero'
+      },
+      {
+        num: '05',
+        title: 'Testar tráfego pago com criativo orgânico',
+        desc: `O reels que performou bem organicamente é seu melhor criativo pago. Invista R$10–30/dia no que já funciona antes de criar peças exclusivas para anúncio.`,
+        impact: '→ Amplifica o que já tem resultado comprovado'
+      },
+    ];
+  }
+
+  return acoes.map(a => `
+    <div class="action-item">
+      <div class="action-num">${a.num}</div>
+      <div class="action-body">
+        <div class="action-title">${a.title}</div>
+        <div class="action-desc">${a.desc}</div>
+        <div class="action-impact">${a.impact}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════════════════
    UTILITÁRIOS
-════════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════ */
 function animarNumero(el, inicio, fim, duracao) {
   const start = performance.now();
   function tick(now) {
@@ -1128,7 +1006,6 @@ function animarNumero(el, inicio, fim, duracao) {
   }
   requestAnimationFrame(tick);
 }
-
 
 function reiniciar() {
   atual = 0; pontuacao = 0; respostas = {};
